@@ -3,17 +3,19 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start:dev": "ng serve",
+    "start:development": "ng serve",
     "start:staging": "ng serve --configuration staging",
     "start:production": "ng serve --configuration production",
-    "build:dev": "ng build --configuration development",
+    "build:development": "ng build --configuration development",
     "build:staging": "ng build --configuration staging",
     "build:production": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
-    "deploy:staging": "npm run build:staging && firebase deploy"
+    "deploy:development": "npm run build:development && firebase use development && firebase deploy",
+    "deploy:staging": "npm run build:staging && firebase use staging && firebase deploy",
+    "deploy:production": "npm run build:production && firebase use production && firebase deploy"
   },
   "private": true,
   "dependencies": {

@@ -22,6 +22,6 @@ export class AppComponent {
           return this.#authenticationService.save(email, localId, idToken);
         }),
       )
-      .subscribe((response) => {});
+      .subscribe();
   }
 }

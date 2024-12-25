@@ -39,9 +39,8 @@ jobs:
 
       - name: Create environment file
         run: |
-          mkdir environments
           echo "Creating production environment file..."
-          echo "${{ secrets.FIREBASE_CONFIG }}" >> environments/environment.ts
+          echo "${{ secrets.PRODUCTION_ENVIRONMENT_FILE }}" >> environments/environment.ts
 
       - name: Build
         run: npm run build:production

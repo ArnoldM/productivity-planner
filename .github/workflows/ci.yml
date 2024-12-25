@@ -35,7 +35,7 @@ jobs:
         run: npm run lint
 
       - name: Create environment file
-        run: /
+        run:
           mkdir environments
           echo "Creating production environment file..."
           echo -n "${{ secrets.FIREBASE_CONFIG }}" >> environments/environment.ts

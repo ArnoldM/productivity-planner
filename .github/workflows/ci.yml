@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.12]
+        node-version: [ 20.12 ]
 
     steps:
       - name: Checkout repository
@@ -33,6 +33,13 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Create environment file
+        run: |
+          pwd
+          echo "Creating production environment file..."
+          echo "${{ secrets.PRODUCTION_ENVIRONMENT_FILE }}" >> src/environments/environment.ts
+          ls
 
       - name: Test
         run: npm run test:ci

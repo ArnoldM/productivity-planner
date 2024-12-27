@@ -10,7 +10,7 @@
     "build:staging": "ng build --configuration staging",
     "build:production": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "jest",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "deploy:development": "npm run build:development && firebase use development && firebase deploy",

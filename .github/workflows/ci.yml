@@ -36,10 +36,8 @@ jobs:
 
       - name: Create environment file
         run: |
-          pwd
           echo "Creating production environment file..."
           echo "${{ secrets.PRODUCTION_ENVIRONMENT_FILE }}" >> src/environments/environment.ts
-          ls
 
       - name: Test
         run: npm run test:ci

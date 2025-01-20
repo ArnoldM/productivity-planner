@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AuthenticationService } from './core/authentication.service';
 import { switchMap } from 'rxjs';
+import { AuthenticationService } from '@core/services/authentication.service';
 
 @Component({
   selector: 'app-root',

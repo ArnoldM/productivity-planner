@@ -32,9 +32,9 @@ type Story = StoryObj<HomeBannerDumbComponent>;
 
 export const Empty: Story = {
   args: {
-    title: 'La productivité au 21 ème siècle',
+    title: 'La productivité au XXIème siècle',
     description: "Atteignez plus d'objectifs en moins de temps.",
-    button: 'TERMINEZ VOS JOURNÉES EN HÉROS',
+    button: 'Terminez vos journées en héro',
   },
   play: async ({ canvasElement }): Promise<void> => {
     const canvas = within(canvasElement);

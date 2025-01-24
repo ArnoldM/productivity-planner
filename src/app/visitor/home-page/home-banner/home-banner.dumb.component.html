@@ -1,10 +1,11 @@
-<div class="p-5 mb-4 bg-body-tertiary rounded-3">
-  <div class="container-fluid py-5">
-    <h1 class="display-5 fw-bold" data-testId="homeBannerTitle">{{ title() }}</h1>
-    <p class="col-md-8 fs-4" data-TestId="homeBannerDescription">{{ description() }}</p>
-    <button class="btn btn-primary btn-lg"
+<div class="wrapper container-fluid p-5 mb-4 rounded-3 text-white d-flex flex-column justify-content-center ">
+  <div class="text-center">
+    <h1 class="fw-bold text-center" data-testId="homeBannerTitle">{{ title() }}</h1>
+    <p class="fs-4 text-center" data-TestId="homeBannerDescription">{{ description() }}</p>
+    <button class="btn btn-success btn-lg m-auto"
             type="button"
             data-testId="homeBannerButton"
-            (click)="clicked.emit()">{{ button() }}</button>
+            (click)="clicked.emit()">{{ button() }}
+    </button>
   </div>
 </div>

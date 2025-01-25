@@ -44,7 +44,7 @@ export const Empty: Story = {
 
     await expect(homeBannerTitle).toBeInTheDocument();
     await expect(homeBannerTitle.textContent).toBe(
-      'La productivité au 21 ème siècle',
+      'La productivité au XXIème siècle',
     );
     await expect(homeBannerDescription).toBeInTheDocument();
     await expect(homeBannerDescription.textContent).toBe(

@@ -45,9 +45,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Build Storybook
-        run: npm run build-storybook
-
       - name: Start Storybook server
         run: npm run storybook &
 

@@ -1,1 +1,5 @@
-<p>homepage works!</p>
+<app-home-banner [button]="banner().button"
+                 [description]="banner().description"
+                 [title]="banner().title"></app-home-banner>
+
+<app-homepage-feature-card-list [cardList]="cardList()"></app-homepage-feature-card-list>

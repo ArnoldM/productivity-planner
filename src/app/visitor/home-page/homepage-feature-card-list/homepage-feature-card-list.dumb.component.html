@@ -1,0 +1,17 @@
+<section class="card-list d-flex column-gap-4" data-testId="homepageFeatureCardList">
+  @for (card of cardList(); track card; let idx = $index) {
+    <div class="card w-100" data-testId="homepageFeatureCard">
+      <div class="card-header fs-5 text-center" data-testId="homepageFeatureCardTitle">
+        {{ card.name }}
+      </div>
+
+      <div class="card-body text-center">
+        <i class="bi fs-1 text-warning" [ngClass]="card.icon" data-testId="homepageFeatureCardIcon"></i>
+      </div>
+
+      <div class="card-footer bg-transparent border-top-0">
+        <p class="card-text text-center" data-testId="homepageFeatureCardDescription"><small>{{ card.description }}</small></p>
+      </div>
+    </div>
+  }
+</section>

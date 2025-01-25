@@ -52,7 +52,7 @@ export const Empty: Story = {
     );
     await expect(homeBannerButton).toBeInTheDocument();
     await expect(homeBannerButton.textContent).toBe(
-      'TERMINEZ VOS JOURNÉES EN HÉROS',
+      'Terminez vos journées en héro',
     );
   },
 };

@@ -1,5 +1,6 @@
 <app-home-banner [button]="banner().button"
                  [description]="banner().description"
-                 [title]="banner().title"></app-home-banner>
+                 [title]="banner().title"
+                 (clicked)="onBannerClicked()" />
 
-<app-homepage-feature-card-list [cardList]="cardList()"></app-homepage-feature-card-list>
+<app-homepage-feature-card-list [cardList]="cardList()" />

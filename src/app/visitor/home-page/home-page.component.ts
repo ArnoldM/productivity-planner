@@ -33,4 +33,8 @@ export class HomePageComponent {
     description: "Atteignez plus d'objectifs en moins de temps.",
     button: 'Terminez vos journées en héro',
   });
+
+  onBannerClicked() {
+    console.log('Banner clicked');
+  }
 }

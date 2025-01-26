@@ -43,16 +43,12 @@ export const Empty: Story = {
     const homeBannerButton = canvas.getByTestId('homeBannerButton');
 
     await expect(homeBannerTitle).toBeInTheDocument();
-    await expect(homeBannerTitle.textContent).toBe(
-      'La productivité au XXIème siècle',
-    );
+    await expect(homeBannerTitle.textContent).toBe(Empty.args!.title);
     await expect(homeBannerDescription).toBeInTheDocument();
     await expect(homeBannerDescription.textContent).toBe(
-      "Atteignez plus d'objectifs en moins de temps.",
+      Empty.args!.description,
     );
     await expect(homeBannerButton).toBeInTheDocument();
-    await expect(homeBannerButton.textContent).toBe(
-      'Terminez vos journées en héro',
-    );
+    await expect(homeBannerButton.textContent).toBe(Empty.args!.button);
   },
 };

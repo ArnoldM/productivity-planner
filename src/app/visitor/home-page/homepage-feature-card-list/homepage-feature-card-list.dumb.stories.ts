@@ -86,7 +86,6 @@ export const ThreeCards: Story = {
     const icons = canvas.queryAllByTestId('homepageFeatureCardIcon');
     await expect(icons.length).toBe(3);
     for (const [index, icon] of icons.entries()) {
-      console.log('icon', icon);
       await expect(icon.getAttribute('class')).toContain(cardList[index].icon);
       await expect(icon).toBeVisible();
     }

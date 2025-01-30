@@ -10,5 +10,5 @@ import { APP_ROUTES } from '@core/enums/routes.enum';
   styleUrl: './header.smart.component.scss',
 })
 export class HeaderComponent {
-  protected readonly APP_ROUTES = APP_ROUTES;
+  readonly APP_ROUTES = APP_ROUTES;
 }

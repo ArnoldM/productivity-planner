@@ -56,13 +56,11 @@ describe('HomeBannerDumbComponent', () => {
       expect(buttonFixture.nativeElement.textContent).toContain(button);
     });
     it('should trigger event on click', () => {
-      let wasClicked = false;
-      component.clicked.subscribe(() => {
-        wasClicked = true;
-      });
+      jest.spyOn(component.clicked, 'emit');
 
-      buttonFixture.triggerEventHandler('click');
-      expect(wasClicked).toBe(true);
+      buttonFixture.nativeElement.click();
+
+      expect(component.clicked.emit).toHaveBeenNthCalledWith(1);
     });
   });
 });

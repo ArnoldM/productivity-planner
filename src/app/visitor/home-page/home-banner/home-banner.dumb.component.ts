@@ -12,6 +12,10 @@ import {
   templateUrl: './home-banner.dumb.component.html',
   styleUrl: './home-banner.dumb.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class:
+      'container-fluid p-5 mb-4 rounded-3 text-white d-flex flex-column justify-content-center text-center',
+  },
 })
 export class HomeBannerDumbComponent {
   readonly title = input.required<string>();

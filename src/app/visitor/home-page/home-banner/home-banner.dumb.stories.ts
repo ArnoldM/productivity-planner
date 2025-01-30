@@ -8,7 +8,7 @@ import { expect, within } from '@storybook/test';
 import { HomeBannerDumbComponent } from './home-banner.dumb.component';
 
 const meta: Meta<HomeBannerDumbComponent> = {
-  title: 'Home-Page/Home-Banner-Smart',
+  title: 'Home-Page/Home-Banner-Dumb',
   component: HomeBannerDumbComponent,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],

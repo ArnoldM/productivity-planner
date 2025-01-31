@@ -46,7 +46,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Start Storybook server
-        run: npm run storybook
+        run: npm run storybook &
 
       - name: Wait for Storybook to start
         run: npx wait-on http://localhost:6006

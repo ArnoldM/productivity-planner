@@ -9,6 +9,9 @@ import { NgClass } from '@angular/common';
   templateUrl: './homepage-feature-card-list.dumb.component.html',
   styleUrl: './homepage-feature-card-list.dumb.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'container d-flex column-gap-4',
+  },
 })
 export class HomepageFeatureCardListDumbComponent {
   readonly cardList = input.required<Card[]>();

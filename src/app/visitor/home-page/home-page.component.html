@@ -1,0 +1,6 @@
+<app-home-banner [button]="banner().button"
+                 [description]="banner().description"
+                 [title]="banner().title"
+                 (clicked)="onBannerClicked()" />
+
+<app-homepage-feature-card-list [cardList]="cardList()" />

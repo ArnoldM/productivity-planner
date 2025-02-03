@@ -32,10 +32,7 @@ interface FirebaseResponseSignin {
 export class AuthenticationService {
   readonly #http = inject(HttpClient);
 
-  register(
-    email: string,
-    password: string,
-  ): Observable<FirebaseResponseSignup> {
+  register(email: string, password: string): Observable<FirebaseResponseSignup> {
     const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`;
     const payload = {
       email,
@@ -56,11 +53,7 @@ export class AuthenticationService {
     return this.#http.post<FirebaseResponseSignin>(URL, payload);
   }
 
-  save(
-    email: string,
-    userId: string,
-    bearerToken: string,
-  ): Observable<unknown> {
+  save(email: string, userId: string, bearerToken: string): Observable<unknown> {
     const baseUrl = `https://firestore.googleapis.com/v1/projects/${environment.firebaseConfig.projectId}/databases/(default)/documents`;
     const userFirestoreCollectionId = 'users';
     const url = `${baseUrl}/${userFirestoreCollectionId}?documentId=${userId}`;

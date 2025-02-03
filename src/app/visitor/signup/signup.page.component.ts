@@ -14,9 +14,7 @@ export default class SignupPageComponent {
   readonly password = signal<string>('');
   readonly confirmPassword = signal<string>('');
 
-  readonly isPasswordMatchValid = computed(
-    () => this.password() === this.confirmPassword(),
-  );
+  readonly isPasswordMatchValid = computed(() => this.password() === this.confirmPassword());
 
   onSubmit() {
     console.log('Name', this.name());

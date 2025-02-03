@@ -1,12 +1,12 @@
 <div class="container">
   <form #signupForm="ngForm" (ngSubmit)="onSubmit()"
-        class="col-6 offset-3 p-5">
+        class="col-12 col-lg-6 offset-lg-3 p-5">
     <div class="mb-3">
       <label for="name" class="form-label">Name</label>
       <input [(ngModel)]="name" #nameField="ngModel" name="name"
              type="text" class="form-control" id="name" aria-describedby="nameHelp"
              required pattern="[a-zA-Z]{3,20}"
-             [ngClass]="{'is-invalid': nameField.errors }">
+             [ngClass]="{'is-invalid': nameField.dirty && nameField.errors }">
       <div id="nameHelp" class="form-text">Must contain between 3 and 20 alphabetical characters</div>
       @if (nameField.dirty && nameField.errors?.['required']) {
         <div class="invalid-feedback">
@@ -22,7 +22,7 @@
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input [(ngModel)]="email" #emailField="ngModel" name="email" email
-             [ngClass]="{'is-invalid': emailField.errors }"
+             [ngClass]="{'is-invalid': emailField.dirty && emailField.errors }"
              type="email" class="form-control" id="email"
              required>
 
@@ -42,7 +42,7 @@
       <input [(ngModel)]="password" #passwordField="ngModel" name="password"
              type="password" class="form-control" id="password" aria-describedby="passwordHelp"
              required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).{8,}"
-             [ngClass]="{'is-invalid': passwordField.errors }">
+             [ngClass]="{'is-invalid': passwordField.dirty && passwordField.errors }">
       <div id="passwordHelp" class="form-text">Must contain at least one number and one uppercase and lowercase letter,
         and at least 8 or more characters
       </div>
@@ -61,7 +61,7 @@
       <label for="confirmPassword" class="form-label">Confirm Password</label>
       <input [(ngModel)]="confirmPassword" #confirmPasswordField="ngModel" name="confirmPassword"
              type="password" class="form-control" id="confirmPassword" required
-             [ngClass]="{'is-invalid': confirmPasswordField.errors }">
+             [ngClass]="{'is-invalid': confirmPasswordField.dirty && !isPasswordMatchValid() }">
       @if (!isPasswordMatchValid()) {
         <div class="invalid-feedback">
           It doesn't match password.
@@ -70,7 +70,7 @@
     </div>
 
     <button [disabled]="signupForm.invalid || signupForm.pristine"
-            type="submit" class="btn btn-primary">Submit
+            type="submit" class="btn btn-primary">Créer mon compte
     </button>
   </form>
 </div>

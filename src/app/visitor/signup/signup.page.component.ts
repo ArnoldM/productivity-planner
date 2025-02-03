@@ -19,6 +19,8 @@ export default class SignupPageComponent {
   );
 
   onSubmit() {
-    console.log('form submitted');
+    console.log('Name', this.name());
+    console.log('Email', this.email());
+    console.log('password', this.password());
   }
 }

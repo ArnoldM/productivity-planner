@@ -11,8 +11,8 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
-      'plugin:prettier/recommended',
     ],
+    plugins: { prettier: require('eslint-plugin-prettier') },
     processor: angular.processInlineTemplates,
     rules: {
       '@angular-eslint/directive-selector': [
@@ -31,6 +31,7 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
+      'prettier/prettier': 'error',
     },
   },
   {

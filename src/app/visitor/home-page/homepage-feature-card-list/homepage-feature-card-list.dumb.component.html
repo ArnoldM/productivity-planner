@@ -1,6 +1,6 @@
 @for (card of cardList(); track card; let idx = $index) {
-  <div class="card w-100" data-testId="homepageFeatureCard">
-    <div class="card-header fs-5 text-center" data-testId="homepageFeatureCardTitle">
+  <div class="card w-100" data-testId="homepage-feature-card">
+    <div class="card-header fs-5 text-center" data-testId="homepage-feature-card-title">
       {{ card.name }}
     </div>
 
@@ -8,12 +8,12 @@
       <i
         class="bi fs-1 text-warning"
         [ngClass]="card.icon"
-        data-testId="homepageFeatureCardIcon"
+        data-testId="homepage-feature-card-icon"
       ></i>
     </div>
 
     <div class="card-footer bg-transparent border-top-0">
-      <p class="card-text text-center" data-testId="homepageFeatureCardDescription">
+      <p class="card-text text-center" data-testId="homepage-feature-card-description">
         <small>{{ card.description }}</small>
       </p>
     </div>

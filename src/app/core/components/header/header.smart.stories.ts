@@ -29,10 +29,10 @@ type Story = StoryObj<HeaderComponent>;
 export const Empty: Story = {
   play: async ({ canvasElement }): Promise<void> => {
     const canvas = within(canvasElement);
-    const navBarTitle = canvas.getByTestId('navbarTitle');
-    const loginLink = canvas.getByTestId('loginLink');
-    const signupLink = canvas.getByTestId('signupLink');
-    const homeLink = canvas.getByTestId('homeLink');
+    const navBarTitle = canvas.getByTestId('navbar-title');
+    const loginLink = canvas.getByTestId('login-link');
+    const signupLink = canvas.getByTestId('signup-link');
+    const homeLink = canvas.getByTestId('home-link');
     await expect(navBarTitle.textContent).toBe('Productivity Planner');
     await expect(loginLink).toBeInTheDocument();
     await expect(signupLink).toBeInTheDocument();

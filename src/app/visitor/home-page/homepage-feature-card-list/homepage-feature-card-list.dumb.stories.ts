@@ -50,7 +50,7 @@ export const NoCard: Story = {
   },
   play: async ({ canvasElement }): Promise<void> => {
     const canvas = within(canvasElement);
-    const cards = canvas.queryAllByTestId('homepageFeatureCard');
+    const cards = canvas.queryAllByTestId('homepage-feature-card');
     await expect(cards.length).toBe(0);
   },
 };
@@ -62,19 +62,19 @@ export const ThreeCards: Story = {
   play: async ({ canvasElement }): Promise<void> => {
     const canvas = within(canvasElement);
 
-    const titles = canvas.queryAllByTestId('homepageFeatureCardTitle');
+    const titles = canvas.queryAllByTestId('homepage-feature-card-title');
     await expect(titles.length).toBe(3);
     for (const [index, title] of titles.entries()) {
       await expect(title.textContent).toContain(cardList[index].name);
     }
 
-    const descriptions = canvas.queryAllByTestId('homepageFeatureCardDescription');
+    const descriptions = canvas.queryAllByTestId('homepage-feature-card-description');
     await expect(descriptions.length).toBe(3);
     for (const [index, description] of descriptions.entries()) {
       await expect(description.textContent).toContain(cardList[index].description);
     }
 
-    const icons = canvas.queryAllByTestId('homepageFeatureCardIcon');
+    const icons = canvas.queryAllByTestId('homepage-feature-card-icon');
     await expect(icons.length).toBe(3);
     for (const [index, icon] of icons.entries()) {
       await expect(icon.getAttribute('class')).toContain(cardList[index].icon);

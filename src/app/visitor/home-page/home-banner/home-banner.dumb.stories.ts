@@ -33,9 +33,9 @@ export const Empty: Story = {
   },
   play: async ({ canvasElement }): Promise<void> => {
     const canvas = within(canvasElement);
-    const homeBannerTitle = canvas.getByTestId('homeBannerTitle');
-    const homeBannerDescription = canvas.getByTestId('homeBannerDescription');
-    const homeBannerButton = canvas.getByTestId('homeBannerButton');
+    const homeBannerTitle = canvas.getByTestId('home-banner-title');
+    const homeBannerDescription = canvas.getByTestId('home-banner-description');
+    const homeBannerButton = canvas.getByTestId('home-banner-button');
 
     await expect(homeBannerTitle).toBeInTheDocument();
     await expect(homeBannerTitle.textContent).toContain(Empty.args!.title);

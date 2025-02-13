@@ -15,7 +15,7 @@
     "test:coverage": "jest --coverage",
     "test:ci": "jest",
     "lint": "ng lint",
-    "format": "npx prettier 'src/**/*.{ts,html,scss}' --write",
+    "format": "npx prettier 'src/**/*.{ts,html,scss}' --write --ignore-path .gitignore",
     "deploy:development": "npm run build:development && firebase use development && firebase deploy",
     "deploy:staging": "npm run build:staging && firebase use staging && firebase deploy",
     "deploy:production": "npm run build:production && firebase use production && firebase deploy",

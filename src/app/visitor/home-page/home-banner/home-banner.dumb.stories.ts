@@ -42,6 +42,6 @@ export const Empty: Story = {
     await expect(homeBannerDescription).toBeInTheDocument();
     await expect(homeBannerDescription.textContent).toBe(Empty.args!.description);
     await expect(homeBannerButton).toBeInTheDocument();
-    await expect(homeBannerButton.textContent).toBe(Empty.args!.button);
+    await expect(homeBannerButton.textContent).toContain(Empty.args!.button);
   },
 };

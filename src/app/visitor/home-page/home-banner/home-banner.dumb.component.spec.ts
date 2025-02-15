@@ -47,9 +47,7 @@ describe('HomeBannerDumbComponent', () => {
     let buttonFixture: DebugElement;
 
     beforeEach(waitForAsync(() => {
-      buttonFixture = fixture.debugElement.query(
-        By.css('[data-testId="homeBannerButton"]'),
-      );
+      buttonFixture = fixture.debugElement.query(By.css('[data-testId="homeBannerButton"]'));
     }));
 
     it('should be displayed', () => {

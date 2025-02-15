@@ -4,7 +4,6 @@ import { HeaderComponent } from '@core/components/header/header.smart.component'
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

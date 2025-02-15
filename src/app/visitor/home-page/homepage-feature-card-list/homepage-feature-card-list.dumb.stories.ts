@@ -1,9 +1,4 @@
-import {
-  applicationConfig,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { expect, within } from '@storybook/test';
 import { HomepageFeatureCardListDumbComponent } from './homepage-feature-card-list.dumb.component';
 import { Card } from '../models/card.interface';
@@ -73,14 +68,10 @@ export const ThreeCards: Story = {
       await expect(title.textContent).toContain(cardList[index].name);
     }
 
-    const descriptions = canvas.queryAllByTestId(
-      'homepageFeatureCardDescription',
-    );
+    const descriptions = canvas.queryAllByTestId('homepageFeatureCardDescription');
     await expect(descriptions.length).toBe(3);
     for (const [index, description] of descriptions.entries()) {
-      await expect(description.textContent).toContain(
-        cardList[index].description,
-      );
+      await expect(description.textContent).toContain(cardList[index].description);
     }
 
     const icons = canvas.queryAllByTestId('homepageFeatureCardIcon');

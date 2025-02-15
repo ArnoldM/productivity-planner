@@ -1,7 +1,10 @@
 <h1 class="fw-bold text-center" data-testId="homeBannerTitle">{{ title() }}</h1>
 <p class="fs-4 text-center" data-TestId="homeBannerDescription">{{ description() }}</p>
-<button class="btn btn-success btn-lg mx-auto"
-        type="button"
-        data-testId="homeBannerButton"
-        (click)="clicked.emit()">{{ button() }}</button>
-
+<button
+  class="btn btn-success btn-lg mx-auto"
+  type="button"
+  data-testId="homeBannerButton"
+  (click)="clicked.emit()"
+>
+  {{ button() }}
+</button>

@@ -1,9 +1,4 @@
-import {
-  applicationConfig,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { expect, within } from '@storybook/test';
 import { HomeBannerDumbComponent } from './home-banner.dumb.component';
 
@@ -45,10 +40,8 @@ export const Empty: Story = {
     await expect(homeBannerTitle).toBeInTheDocument();
     await expect(homeBannerTitle.textContent).toBe(Empty.args!.title);
     await expect(homeBannerDescription).toBeInTheDocument();
-    await expect(homeBannerDescription.textContent).toBe(
-      Empty.args!.description,
-    );
+    await expect(homeBannerDescription.textContent).toBe(Empty.args!.description);
     await expect(homeBannerButton).toBeInTheDocument();
-    await expect(homeBannerButton.textContent).toBe(Empty.args!.button);
+    await expect(homeBannerButton.textContent).toContain(Empty.args!.button);
   },
 };

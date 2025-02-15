@@ -6,11 +6,17 @@
       </div>
 
       <div class="card-body text-center">
-        <i class="bi fs-1 text-warning" [ngClass]="card.icon" data-testId="homepageFeatureCardIcon"></i>
+        <i
+          class="bi fs-1 text-warning"
+          [ngClass]="card.icon"
+          data-testId="homepageFeatureCardIcon"
+        ></i>
       </div>
 
       <div class="card-footer bg-transparent border-top-0">
-        <p class="card-text text-center" data-testId="homepageFeatureCardDescription"><small>{{ card.description }}</small></p>
+        <p class="card-text text-center" data-testId="homepageFeatureCardDescription">
+          <small>{{ card.description }}</small>
+        </p>
       </div>
     </div>
   }

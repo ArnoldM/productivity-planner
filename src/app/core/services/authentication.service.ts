@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
  * Represents the payload of the response received when registering a new user in Firebase
  * @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-create-email-password
  */
-interface FirebaseResponseSignup {
+interface UserWithId {
   idToken: string;
   email: string;
   refreshToken: string;
@@ -32,7 +32,7 @@ interface FirebaseResponseSignin {
 export class AuthenticationService {
   readonly #http = inject(HttpClient);
 
-  register(email: string, password: string): Observable<FirebaseResponseSignup> {
+  register(email: string, password: string): Observable<UserWithId> {
     const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`;
     const payload = {
       email,
@@ -40,7 +40,7 @@ export class AuthenticationService {
       returnSecureToken: true,
     };
 
-    return this.#http.post<FirebaseResponseSignup>(URL, payload);
+    return this.#http.post<UserWithId>(URL, payload);
   }
 
   login(email: string, password: string): Observable<FirebaseResponseSignin> {

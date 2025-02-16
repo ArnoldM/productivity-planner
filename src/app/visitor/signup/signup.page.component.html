@@ -11,7 +11,7 @@
         id="name"
         aria-describedby="nameHelp"
         required
-        pattern="[a-zA-Z]{3,20}"
+        pattern="[a-z A-Z]{3,20}"
         [class.is-invalid]="nameField.dirty && nameField.errors"
       />
       <div id="nameHelp" class="form-text">
@@ -60,8 +60,8 @@
         [class.is-invalid]="passwordField.dirty && passwordField.errors"
       />
       <div id="passwordHelp" class="form-text">
-        Must contain at least one number and one uppercase and lowercase letter, and at least 8 or
-        more characters
+        Must contain at least one number and one uppercase and lowercase letter, at least 8 or more
+        characters and contain at least one special character (&#64;$!%*?&)
       </div>
       @if (passwordField.dirty && passwordField.hasError('required')) {
         <div class="invalid-feedback">password required.</div>

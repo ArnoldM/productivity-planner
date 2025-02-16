@@ -12,15 +12,15 @@
         aria-describedby="nameHelp"
         required
         pattern="[a-zA-Z]{3,20}"
-        [ngClass]="{ 'is-invalid': nameField.dirty && nameField.errors }"
+        [class.is-invalid]="nameField.dirty && nameField.errors"
       />
       <div id="nameHelp" class="form-text">
         Must contain between 3 and 20 alphabetical characters
       </div>
-      @if (nameField.dirty && nameField.errors?.['required']) {
+      @if (nameField.dirty && nameField.hasError('required')) {
         <div class="invalid-feedback">Name is required</div>
       }
-      @if (nameField.dirty && nameField.errors && !nameField.errors['required']) {
+      @if (nameField.dirty && nameField.hasError('required')) {
         <div class="invalid-feedback">Name format is invalid</div>
       }
     </div>
@@ -31,17 +31,17 @@
         #emailField="ngModel"
         name="email"
         email
-        [ngClass]="{ 'is-invalid': emailField.dirty && emailField.errors }"
+        [class.is-invalid]="emailField.dirty && emailField.errors"
         type="email"
         class="form-control"
         id="email"
         required
       />
 
-      @if (emailField.dirty && emailField.errors?.['required']) {
+      @if (emailField.dirty && emailField.hasError('required')) {
         <div class="invalid-feedback">Email required.</div>
       }
-      @if (emailField.dirty && emailField.errors && !emailField.errors['required']) {
+      @if (emailField.dirty && emailField.hasError('required')) {
         <div class="invalid-feedback">Email format invalid.</div>
       }
     </div>
@@ -57,16 +57,16 @@
         aria-describedby="passwordHelp"
         required
         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).{8,}"
-        [ngClass]="{ 'is-invalid': passwordField.dirty && passwordField.errors }"
+        [class.is-invalid]="passwordField.dirty && passwordField.errors"
       />
       <div id="passwordHelp" class="form-text">
         Must contain at least one number and one uppercase and lowercase letter, and at least 8 or
         more characters
       </div>
-      @if (passwordField.dirty && passwordField.errors?.['required']) {
+      @if (passwordField.dirty && passwordField.hasError('required')) {
         <div class="invalid-feedback">password required.</div>
       }
-      @if (passwordField.dirty && passwordField.errors && !passwordField.errors['required']) {
+      @if (passwordField.dirty && passwordField.hasError('required')) {
         <div class="invalid-feedback">password format invalid.</div>
       }
     </div>
@@ -80,7 +80,7 @@
         class="form-control"
         id="confirmPassword"
         required
-        [ngClass]="{ 'is-invalid': confirmPasswordField.dirty && !isPasswordMatchValid() }"
+        [class.is-invalid]="confirmPasswordField.dirty && !isPasswordMatchValid()"
       />
       @if (!isPasswordMatchValid()) {
         <div class="invalid-feedback">It doesn't match password.</div>

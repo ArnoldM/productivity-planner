@@ -1,10 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [FormsModule, NgClass],
+  imports: [FormsModule],
   templateUrl: './signup.page.component.html',
   styleUrl: './signup.page.component.scss',
 })

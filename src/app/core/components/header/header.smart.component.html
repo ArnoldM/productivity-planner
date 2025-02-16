@@ -1,22 +1,38 @@
 <nav class="navbar navbar-expand bg-body-tertiary">
-  <div class="container-fluid">
+  <div class="container">
     <div class="d-inline-flex">
-      <a [routerLink]="APP_ROUTES.HOME" class="navbar-brand" data-testId="navbarTitle"
+      <a [routerLink]="APP_ROUTES.HOME" class="navbar-brand" data-testId="navbar-title"
         >Productivity Planner</a
       >
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a [routerLink]="APP_ROUTES.HOME" class="nav-link" data-testId="homeLink">Accueil</a>
+          <a
+            [routerLink]="APP_ROUTES.HOME"
+            routerLinkActive="active"
+            class="nav-link"
+            data-testId="home-link"
+            >Accueil</a
+          >
         </li>
       </ul>
     </div>
 
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a [routerLink]="APP_ROUTES.LOGIN" class="nav-link" data-testId="loginLink">Connexion</a>
+        <a
+          [routerLink]="APP_ROUTES.LOGIN"
+          routerLinkActive="active"
+          class="nav-link"
+          data-testId="login-link"
+          >Connexion</a
+        >
       </li>
       <li class="nav-item">
-        <a [routerLink]="APP_ROUTES.SIGNUP" class="nav-link" data-testId="signupLink"
+        <a
+          [routerLink]="APP_ROUTES.SIGNUP"
+          routerLinkActive="active"
+          class="nav-link"
+          data-testId="signup-link"
           >Inscription</a
         >
       </li>

@@ -1,6 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '@core/services/authentication.service';
+import { UserStore } from '@core/stores/user.store';
+import { Visitor } from '@core/entities/user.interface';
 
 @Component({
   standalone: true,
@@ -9,6 +11,7 @@ import { AuthenticationService } from '@core/services/authentication.service';
   styleUrl: './signup.page.component.scss',
 })
 export default class SignupPageComponent {
+  readonly userStore = inject(UserStore);
   readonly authenticationService = inject(AuthenticationService);
 
   readonly name = signal<string>('');
@@ -20,13 +23,12 @@ export default class SignupPageComponent {
 
   onSubmit() {
     console.log('Submitted');
-    this.authenticationService.register(this.email(), this.password()).subscribe({
-      next: (response) => {
-        console.log('Response', response);
-      },
-      error: (error) => {
-        console.error('Error', error);
-      },
-    });
+    const user: Visitor = {
+      name: this.name(),
+      email: this.email(),
+      password: this.password(),
+    };
+
+    this.userStore.register(user);
   }
 }

@@ -1,21 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { RegisterResponse } from '@core/models/interfaces/register-response.interface';
+import { LoginResponse } from '@core/models/interfaces/login-response.interface';
 import { AuthenticationFirebaseService } from '@core/services/authentication-firebase.service';
-
-export interface RegisterResponse {
-  jwtToken: string;
-  jwtRefreshToken: string;
-  expiresIn: string;
-  userId: string;
-}
-
-export interface LoginResponse {
-  jwtToken: string;
-  jwtRefreshToken: string;
-  expiresIn: string;
-  userId: string;
-  isRegistered: boolean;
-}
 
 @Injectable({
   providedIn: 'root',

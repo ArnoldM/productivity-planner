@@ -2,38 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { map, Observable } from 'rxjs';
-import {
-  AuthenticationService,
-  LoginResponse,
-  RegisterResponse,
-} from '@core/services/authentication.service';
-
-/**
- * Represents the payload of the response received when registering a new user in Firebase
- * @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-create-email-password
- */
-interface FirebaseResponseSignup {
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-}
-
-/**
- * Represents the payload of the response received when logging in a user in Firebase
- * @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-sign-in-email-password
- */
-interface FirebaseResponseSignin {
-  kind: string;
-  localId: string;
-  email: string;
-  displayName: string;
-  idToken: string;
-  registered: boolean;
-  refreshToken: string;
-  expiresIn: string;
-}
+import { AuthenticationService } from '@core/services/authentication.service';
+import { FirebaseResponseSignup } from '@core/models/interfaces/firebase-response-signup.interface';
+import { FirebaseResponseSignin } from '@core/models/interfaces/firebase-response-signin.interface';
+import { RegisterResponse } from '@core/models/interfaces/register-response.interface';
+import { LoginResponse } from '@core/models/interfaces/login-response.interface';
 
 @Injectable()
 export class AuthenticationFirebaseService implements AuthenticationService {
@@ -78,23 +51,4 @@ export class AuthenticationFirebaseService implements AuthenticationService {
       ),
     );
   }
-
-  // save(email: string, userId: string, bearerToken: string): Observable<unknown> {
-  //   const baseUrl = `https://firestore.googleapis.com/v1/projects/${environment.firebaseConfig.projectId}/databases/(default)/documents`;
-  //   const userFirestoreCollectionId = 'users';
-  //   const url = `${baseUrl}/${userFirestoreCollectionId}?documentId=${userId}`;
-  //   const payload = {
-  //     fields: {
-  //       id: { stringValue: userId },
-  //       email: { stringValue: email },
-  //     },
-  //   };
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${bearerToken}`,
-  //   });
-  //   const options = { headers };
-  //
-  //   return this.#http.post<unknown>(url, payload, options);
-  // }
 }

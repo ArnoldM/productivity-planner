@@ -82,5 +82,16 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
+  },
+  "overrides": {
+    "esbuild": "^0.25.0",
+    "@angular/build": {
+      "vite": {
+        "esbuild": "^0.25.0"
+      }
+    },
+    "vite": {
+      "esbuild": "^0.25.0"
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '@core/entities/user.interface';
 import { Observable } from 'rxjs';
-import { UserFirebaseService } from '@core/repositories/user-firebase.service';
+import { UserFirebaseService } from '@core/adapters/user-firebase.service';
 
 @Injectable({
   providedIn: 'root',

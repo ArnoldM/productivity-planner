@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ignoreElements, Observable } from 'rxjs';
-import { UserService } from '@core/repositories/user.service';
+import { UserService } from '@core/ports/user.service';
 import { User } from '@core/entities/user.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';

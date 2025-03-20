@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { User, Visitor } from '@core/entities/user.interface';
-import { AuthenticationService } from '@core/services/authentication.service';
+import { AuthenticationService } from '@core/ports/authentication.service';
 import { firstValueFrom } from 'rxjs';
-import { UserService } from '@core/repositories/user.service';
+import { UserService } from '@core/ports/user.service';
 
 @Injectable({
   providedIn: 'root',

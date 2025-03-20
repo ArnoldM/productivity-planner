@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { RegisterUserUseCaseService } from './register-user.use-case.service';
-import { AuthenticationService } from '@core/services/authentication.service';
-import { UserService } from '@core/repositories/user.service';
+import { AuthenticationService } from '@core/ports/authentication.service';
+import { UserService } from '@core/ports/user.service';
 
 describe('RegisterUserUseCaseService', () => {
   let service: RegisterUserUseCaseService;

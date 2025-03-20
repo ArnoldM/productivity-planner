@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { map, Observable } from 'rxjs';
-import { AuthenticationService } from '@core/services/authentication.service';
+import { AuthenticationService } from '@core/ports/authentication.service';
 import { FirebaseResponseSignup } from '@core/models/interfaces/firebase-response-signup.interface';
 import { FirebaseResponseSignin } from '@core/models/interfaces/firebase-response-signin.interface';
 import { RegisterResponse } from '@core/models/interfaces/register-response.interface';

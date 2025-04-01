@@ -1,5 +1,10 @@
 <div class="container">
-  <form #form="ngForm" (ngSubmit)="onSubmit()" class="col-12 col-lg-6 offset-lg-3 p-5" data-testid="form">
+  <form
+    #form="ngForm"
+    (ngSubmit)="onSubmit()"
+    class="col-12 col-lg-6 offset-lg-3 p-5"
+    data-testid="form"
+  >
     <!-- NAME -->
     <div class="mb-3">
       <label for="name" class="form-label">Name</label>
@@ -26,7 +31,8 @@
       }
       @if (nameField.dirty && nameField.hasError('minlength')) {
         <div class="invalid-feedback" data-testid="error-name-minlength">
-          Name must contain at least {{ nameField.getError('minlength').requiredLength }} characters.
+          Name must contain at least
+          {{ nameField.getError('minlength').requiredLength }} characters.
         </div>
       }
       @if (nameField.dirty && nameField.hasError('maxlength')) {
@@ -85,15 +91,20 @@
         characters and contain at least one special character (&#64;$!%*?&)
       </div>
       @if (passwordField.dirty && passwordField.hasError('required')) {
-        <div class="invalid-feedback" data-testId="error-password-required">Password is required.</div>
+        <div class="invalid-feedback" data-testId="error-password-required">
+          Password is required.
+        </div>
       }
       @if (passwordField.dirty && passwordField.hasError('minlength')) {
-        <div class="invalid-feedback" data-testId="error-password-minlength">Password must contain at
-          least {{ passwordField.getError('minlength').requiredLength }} characters.
+        <div class="invalid-feedback" data-testId="error-password-minlength">
+          Password must contain at least
+          {{ passwordField.getError('minlength').requiredLength }} characters.
         </div>
       }
       @if (passwordField.dirty && passwordField.hasError('pattern')) {
-        <div class="invalid-feedback" data-testId="error-password-pattern">Password is not valid.</div>
+        <div class="invalid-feedback" data-testId="error-password-pattern">
+          Password is not valid.
+        </div>
       }
     </div>
     <!-- CONFIRM PASSWORD -->
@@ -111,7 +122,9 @@
         [class.is-invalid]="confirmPasswordField.dirty && !isPasswordMatchValid()"
       />
       @if (!isPasswordMatchValid()) {
-        <div class="invalid-feedback" data-testId="error-password-confirm">Passwords do not match.</div>
+        <div class="invalid-feedback" data-testId="error-password-confirm">
+          Passwords do not match.
+        </div>
       }
     </div>
 

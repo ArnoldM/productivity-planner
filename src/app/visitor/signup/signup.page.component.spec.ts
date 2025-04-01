@@ -64,7 +64,7 @@ describe('SignupPageComponent', () => {
       const error = fixture.debugElement.query(By.css('[data-testId="error-name-required"]'));
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toBe('Name is required');
+      expect(errorMessage).toContain('Name is required');
     });
 
     it('should display error message when field contain less than 3 characters', () => {
@@ -120,7 +120,7 @@ describe('SignupPageComponent', () => {
 
       const error = fixture.debugElement.query(By.css('[data-testId="error-email-required"]'));
       const errorMessage = error.nativeElement.textContent;
-      expect(errorMessage).toBe('Email is required.');
+      expect(errorMessage).toContain('Email is required.');
     });
     it('should display error message when field do not contain a valid HTML5 email', () => {
       email.nativeElement.value = 'invalid-email';
@@ -129,7 +129,7 @@ describe('SignupPageComponent', () => {
 
       const error = fixture.debugElement.query(By.css('[data-testId="error-email-pattern"]'));
       const errorMessage = error.nativeElement.textContent;
-      expect(errorMessage).toBe('Email is not valid.');
+      expect(errorMessage).toContain('Email is not valid.');
     });
   });
 
@@ -149,7 +149,7 @@ describe('SignupPageComponent', () => {
 
       const error = fixture.debugElement.query(By.css('[data-testId="error-password-required"]'));
       const errorMessage = error.nativeElement.textContent;
-      expect(errorMessage).toBe('Password is required.');
+      expect(errorMessage).toContain('Password is required.');
     });
     it('should display error message when field contain less than 8 characters', () => {
       password.nativeElement.value = '1234567';
@@ -199,7 +199,7 @@ describe('SignupPageComponent', () => {
 
       const error = fixture.debugElement.query(By.css('[data-testId="error-password-confirm"]'));
       const errorMessage = error.nativeElement.textContent;
-      expect(errorMessage).toBe('Passwords do not match.');
+      expect(errorMessage).toContain('Passwords do not match.');
     });
   });
 

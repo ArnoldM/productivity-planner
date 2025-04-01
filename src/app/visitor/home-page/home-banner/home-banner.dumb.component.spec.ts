@@ -32,13 +32,13 @@ describe('HomeBannerDumbComponent', () => {
 
   it('should display title', () => {
     const titleElement = fixture.debugElement.query(
-      By.css('[data-testId="homeBannerTitle"]'),
+      By.css('[data-testId="home-banner-title"]'),
     ).nativeElement;
     expect(titleElement.textContent).toContain(title);
   });
   it('should display description', () => {
     const descriptionElement = fixture.debugElement.query(
-      By.css('[data-testId="homeBannerDescription"]'),
+      By.css('[data-testId="home-banner-description"]'),
     ).nativeElement;
     expect(descriptionElement.textContent).toContain(description);
   });
@@ -47,7 +47,7 @@ describe('HomeBannerDumbComponent', () => {
     let buttonFixture: DebugElement;
 
     beforeEach(waitForAsync(() => {
-      buttonFixture = fixture.debugElement.query(By.css('[data-testId="homeBannerButton"]'));
+      buttonFixture = fixture.debugElement.query(By.css('[data-testId="home-banner-button"]'));
     }));
 
     it('should be displayed', () => {

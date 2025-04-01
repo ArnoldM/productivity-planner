@@ -40,34 +40,36 @@ describe('HomepageFeatureCardListDumbComponent', () => {
   });
 
   it('should display the correct number of feature cards', () => {
-    const cards = fixture.debugElement.queryAll(By.css('[data-testId="homepageFeatureCard"]'));
+    const cards = fixture.debugElement.queryAll(By.css('[data-testId="homepage-feature-card"]'));
     expect(cards.length).toBe(3);
   });
   it('should display nothing if feature list is empty', () => {
     fixture.componentRef.setInput('cardList', []);
     fixture.detectChanges();
 
-    const cards = fixture.debugElement.queryAll(By.css('[data-testId="homepageFeatureCard"]'));
+    const cards = fixture.debugElement.queryAll(By.css('[data-testId="homepage-feature-card"]'));
 
     expect(cards.length).toBe(0);
   });
   it('should display titles in each card', () => {
     const titles = fixture.debugElement.queryAll(
-      By.css('[data-testId="homepageFeatureCardTitle"]'),
+      By.css('[data-testId="homepage-feature-cardTitle"]'),
     );
     titles.forEach((title, index) => {
       expect(title.nativeElement.textContent).toContain(cardList[index].name);
     });
   });
   it('should display icons in each card', () => {
-    const icons = fixture.debugElement.queryAll(By.css('[data-testId="homepageFeatureCardIcon"]'));
+    const icons = fixture.debugElement.queryAll(
+      By.css('[data-testId="homepage-feature-card-icon"]'),
+    );
     icons.forEach((icon, index) => {
       expect(icon.nativeElement.getAttribute('class')).toContain(cardList[index].icon);
     });
   });
   it('should display descriptions in each card', () => {
     const descriptions = fixture.debugElement.queryAll(
-      By.css('[data-testId="homepageFeatureCardDescription"] small'),
+      By.css('[data-testId="homepage-feature-card-description"] small'),
     );
     descriptions.forEach((description, index) => {
       expect(description.nativeElement.textContent).toContain(cardList[index].description);

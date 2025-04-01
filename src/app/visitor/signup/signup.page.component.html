@@ -1,0 +1,140 @@
+<div class="container">
+  <form
+    #form="ngForm"
+    (ngSubmit)="onSubmit()"
+    class="col-12 col-lg-6 offset-lg-3 p-5"
+    data-testid="form"
+  >
+    <!-- NAME -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input
+        [(ngModel)]="name"
+        #nameField="ngModel"
+        name="name"
+        type="text"
+        class="form-control"
+        id="name"
+        aria-describedby="nameHelp"
+        data-testid="name"
+        required
+        minlength="3"
+        maxlength="20"
+        pattern="[a-zA-Z]+"
+        [class.is-invalid]="nameField.dirty && nameField.errors"
+      />
+      <div id="nameHelp" class="form-text">
+        Must contain between 3 and 20 alphabetical characters
+      </div>
+      @if (nameField.dirty && nameField.hasError('required')) {
+        <div class="invalid-feedback" data-testid="error-name-required">Name is required</div>
+      }
+      @if (nameField.dirty && nameField.hasError('minlength')) {
+        <div class="invalid-feedback" data-testid="error-name-minlength">
+          Name must contain at least
+          {{ nameField.getError('minlength').requiredLength }} characters.
+        </div>
+      }
+      @if (nameField.dirty && nameField.hasError('maxlength')) {
+        <div class="form-text text-danger" data-testid="error-name-maxlength">
+          Name must contain maximum {{ nameField.getError('maxlength').requiredLength }} characters.
+        </div>
+      }
+      @if (nameField.dirty && nameField.hasError('pattern')) {
+        <div class="form-text text-danger" data-testid="error-name-pattern">
+          Name must contain only letters.
+        </div>
+      }
+    </div>
+    <!-- EMAIL -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        [(ngModel)]="email"
+        #emailField="ngModel"
+        name="email"
+        email
+        [class.is-invalid]="emailField.dirty && emailField.errors"
+        type="email"
+        class="form-control"
+        id="email"
+        data-testid="email"
+        required
+      />
+
+      @if (emailField.dirty && emailField.hasError('required')) {
+        <div class="invalid-feedback" data-testid="error-email-required">Email is required.</div>
+      }
+      @if (emailField.dirty && emailField.hasError('email')) {
+        <div class="invalid-feedback" data-testid="error-email-pattern">Email is not valid.</div>
+      }
+    </div>
+    <!-- PASSWORD -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        [(ngModel)]="password"
+        #passwordField="ngModel"
+        name="password"
+        type="password"
+        class="form-control"
+        id="password"
+        aria-describedby="passwordHelp"
+        required
+        minlength="8"
+        data-testid="password"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$"
+        [class.is-invalid]="passwordField.dirty && passwordField.errors"
+      />
+      <div id="passwordHelp" class="form-text">
+        Must contain at least one number and one uppercase and lowercase letter, at least 8 or more
+        characters and contain at least one special character (&#64;$!%*?&)
+      </div>
+      @if (passwordField.dirty && passwordField.hasError('required')) {
+        <div class="invalid-feedback" data-testId="error-password-required">
+          Password is required.
+        </div>
+      }
+      @if (passwordField.dirty && passwordField.hasError('minlength')) {
+        <div class="invalid-feedback" data-testId="error-password-minlength">
+          Password must contain at least
+          {{ passwordField.getError('minlength').requiredLength }} characters.
+        </div>
+      }
+      @if (passwordField.dirty && passwordField.hasError('pattern')) {
+        <div class="invalid-feedback" data-testId="error-password-pattern">
+          Password is not valid.
+        </div>
+      }
+    </div>
+    <!-- CONFIRM PASSWORD -->
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirm Password</label>
+      <input
+        [(ngModel)]="confirmPassword"
+        #confirmPasswordField="ngModel"
+        name="confirmPassword"
+        type="password"
+        class="form-control"
+        id="confirmPassword"
+        data-testid="confirm-password"
+        required
+        [class.is-invalid]="confirmPasswordField.dirty && !isPasswordMatchValid()"
+      />
+      @if (!isPasswordMatchValid()) {
+        <div class="invalid-feedback" data-testId="error-password-confirm">
+          Passwords do not match.
+        </div>
+      }
+    </div>
+
+    <button
+      [disabled]="form.invalid || form.pristine || !isPasswordMatchValid()"
+      type="submit"
+      class="btn btn-primary"
+      data-testid="submit-button"
+    >
+      Créer mon compte
+    </button>
+  </form>
+</div>

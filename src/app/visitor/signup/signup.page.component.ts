@@ -1,6 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthenticationService } from '@core/ports/authentication.service';
 import { UserStore } from '@core/stores/user.store';
 import { Visitor } from '@core/entities/user.interface';
 
@@ -12,7 +11,6 @@ import { Visitor } from '@core/entities/user.interface';
 })
 export default class SignupPageComponent {
   readonly userStore = inject(UserStore);
-  readonly authenticationService = inject(AuthenticationService);
 
   readonly name = signal<string>('');
   readonly email = signal<string>('');
@@ -22,7 +20,6 @@ export default class SignupPageComponent {
   readonly isPasswordMatchValid = computed(() => this.password() === this.confirmPassword());
 
   onSubmit() {
-    console.log('Submitted');
     const user: Visitor = {
       name: this.name(),
       email: this.email(),

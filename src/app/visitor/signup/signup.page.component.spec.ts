@@ -14,7 +14,6 @@ describe('SignupPageComponent', () => {
   let password: DebugElement;
   let confirmPassword: DebugElement;
   let button: DebugElement;
-  let form: DebugElement;
   let userStoreMock: { register: jest.Mock };
 
   beforeEach(async () => {
@@ -36,7 +35,6 @@ describe('SignupPageComponent', () => {
     password = fixture.debugElement.query(By.css('[data-testId="password"]'));
     confirmPassword = fixture.debugElement.query(By.css('[data-testId="confirm-password"]'));
     button = fixture.debugElement.query(By.css('[data-testId="submit-button"]'));
-    form = fixture.debugElement.query(By.css('[data-testId="form"]'));
   });
 
   it('should create', () => {

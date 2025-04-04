@@ -14,4 +14,9 @@ export const routes: Routes = [
     loadComponent: () => import('./membership/dashboard/dashboard.page.component'),
     title: 'Dashboard',
   },
+  {
+    path: APP_ROUTES.LOGIN,
+    loadComponent: () => import('./visitor/login/login.page.component'),
+    title: 'Login',
+  },
 ];

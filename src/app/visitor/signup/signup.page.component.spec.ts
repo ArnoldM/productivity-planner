@@ -205,7 +205,7 @@ describe('SignupPageComponent', () => {
 
   describe('when user submit the form', () => {
     it('should trigger userStore Register', () => {
-      name.nativeElement.value = faker.person.fullName();
+      name.nativeElement.value = faker.person.lastName();
       name.nativeElement.dispatchEvent(new Event('input'));
       email.nativeElement.value = faker.internet.email();
       email.nativeElement.dispatchEvent(new Event('input'));
@@ -213,10 +213,10 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       confirmPassword.nativeElement.value = 'Password1$';
       confirmPassword.nativeElement.dispatchEvent(new Event('input'));
-
-      form.triggerEventHandler('submit', null);
-      // button.nativeElement.click();
+      // don't forget this !!!
       fixture.detectChanges();
+
+      button.nativeElement.click();
 
       expect(userStoreMock.register).toHaveBeenCalled();
     });

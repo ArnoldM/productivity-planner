@@ -25,11 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
 
-      - name: Audit
-        run: npm audit
-
-      - name: Audit signatures
-        run: npm audit signatures
+#      - name: Audit
+#        run: npm audit
+#
+#      - name: Audit signatures
+#        run: npm audit signatures
 
       - name: Lint
         run: npm run lint

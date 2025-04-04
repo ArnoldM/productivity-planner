@@ -14,7 +14,6 @@ describe('SignupPageComponent', () => {
   let password: DebugElement;
   let confirmPassword: DebugElement;
   let button: DebugElement;
-  let form: DebugElement;
   let userStoreMock: { register: jest.Mock };
 
   beforeEach(async () => {
@@ -36,7 +35,6 @@ describe('SignupPageComponent', () => {
     password = fixture.debugElement.query(By.css('[data-testId="password"]'));
     confirmPassword = fixture.debugElement.query(By.css('[data-testId="confirm-password"]'));
     button = fixture.debugElement.query(By.css('[data-testId="submit-button"]'));
-    form = fixture.debugElement.query(By.css('[data-testId="form"]'));
   });
 
   it('should create', () => {
@@ -205,7 +203,7 @@ describe('SignupPageComponent', () => {
 
   describe('when user submit the form', () => {
     it('should trigger userStore Register', () => {
-      name.nativeElement.value = faker.person.fullName();
+      name.nativeElement.value = faker.person.lastName();
       name.nativeElement.dispatchEvent(new Event('input'));
       email.nativeElement.value = faker.internet.email();
       email.nativeElement.dispatchEvent(new Event('input'));
@@ -213,10 +211,10 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       confirmPassword.nativeElement.value = 'Password1$';
       confirmPassword.nativeElement.dispatchEvent(new Event('input'));
-
-      form.triggerEventHandler('submit', null);
-      // button.nativeElement.click();
+      // don't forget this !!!
       fixture.detectChanges();
+
+      button.nativeElement.click();
 
       expect(userStoreMock.register).toHaveBeenCalled();
     });

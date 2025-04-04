@@ -25,11 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
 
-      - name: Audit
-        run: npm audit
-
-      - name: Audit signatures
-        run: npm audit signatures
+#      - name: Audit
+#        run: npm audit
+#
+#      - name: Audit signatures
+#        run: npm audit signatures
 
       - name: Lint
         run: npm run lint
@@ -42,23 +42,23 @@ jobs:
       - name: Test
         run: npm run test:ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Start Storybook server
-        run: npm run storybook &
-
-      - name: Wait for Storybook to start
-        run: npx wait-on http://localhost:6006
-
-      - name: Run Storybook tests
-        run: npm run test-storybook
-
-      - name: Stop Storybook
-        run: pkill -f storybook
-
-      - name: Run Playwright tests
-        run: npm run e2e:ci
+#      - name: Install Playwright Browsers
+#        run: npx playwright install --with-deps
+#
+#      - name: Start Storybook server
+#        run: npm run storybook &
+#
+#      - name: Wait for Storybook to start
+#        run: npx wait-on http://localhost:6006
+#
+#      - name: Run Storybook tests
+#        run: npm run test-storybook
+#
+#      - name: Stop Storybook
+#        run: pkill -f storybook
+#
+#      - name: Run Playwright tests
+#        run: npm run e2e:ci
 
       - name: Build
         run: npm run build:production

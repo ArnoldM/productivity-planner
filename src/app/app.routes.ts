@@ -9,4 +9,9 @@ export const routes: Routes = [
     loadComponent: () => import('./visitor/signup/signup.page.component'),
     title: 'Signup',
   },
+  {
+    path: APP_ROUTES.DASHBOARD,
+    loadComponent: () => import('./membership/dashboard/dashboard.page.component'),
+    title: 'Dashboard',
+  },
 ];

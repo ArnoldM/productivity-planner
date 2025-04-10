@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './login.page.component.html',
   styleUrl: './login.page.component.scss',
 })
-export default class LoginPageComponent {}
+export default class LoginPageComponent {
+  readonly email = signal<string>('');
+  readonly password = signal<string>('');
+}

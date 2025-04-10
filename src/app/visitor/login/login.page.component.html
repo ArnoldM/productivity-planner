@@ -1,1 +1,63 @@
-<p>login works!</p>
+<div class="container">
+  <form
+    #form="ngForm"
+    class="col-12 col-lg-6 offset-lg-3 p-5"
+    data-testid="form"
+  >
+    <!-- EMAIL -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        [(ngModel)]="email"
+        #emailField="ngModel"
+        name="email"
+        [class.is-invalid]="emailField.dirty && emailField.errors"
+        type="email"
+        class="form-control"
+        id="email"
+        data-testid="email"
+        required
+        email
+      />
+      @if (emailField.dirty) {
+        @if (emailField.hasError('required')) {
+          <div class="invalid-feedback" data-testid="error-email-required">Email is required.</div>
+        }
+        @if (emailField.hasError('email')) {
+          <div class="invalid-feedback" data-testid="error-email-pattern">Email must be valid.</div>
+        }
+      }
+
+    </div>
+    <!-- PASSWORD -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        [(ngModel)]="password"
+        #passwordField="ngModel"
+        name="password"
+        type="password"
+        class="form-control"
+        id="password"
+        aria-describedby="passwordHelp"
+        required
+        data-testid="password"
+        [class.is-invalid]="passwordField.dirty && passwordField.errors"
+      />
+      @if (passwordField.dirty && passwordField.hasError('required')) {
+        <div class="invalid-feedback" data-testId="error-password-required">
+          Password is required.
+        </div>
+      }
+    </div>
+
+    <button
+      [disabled]="true"
+      type="submit"
+      class="btn btn-primary"
+      data-testid="submit-button"
+    >
+      Me connecter
+    </button>
+  </form>
+</div>

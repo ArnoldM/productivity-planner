@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import SignupPageComponent from './signup.page.component';
-import { UserStore } from '@core/stores/user.store';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { faker } from '@faker-js/faker';
+import { RegisterUserUseCase } from '@visitor/signup/domain/register-user.use-case';
 
 describe('SignupPageComponent', () => {
   let component: SignupPageComponent;
@@ -14,16 +14,19 @@ describe('SignupPageComponent', () => {
   let password: DebugElement;
   let confirmPassword: DebugElement;
   let button: DebugElement;
-  let userStoreMock: { register: jest.Mock };
+  let registerUserUseCaseMock: jest.Mocked<RegisterUserUseCase>;
 
   beforeEach(async () => {
-    userStoreMock = {
-      register: jest.fn(),
-    };
-
     await TestBed.configureTestingModule({
       imports: [SignupPageComponent],
-      providers: [{ provide: UserStore, useValue: userStoreMock }],
+      providers: [
+        {
+          provide: RegisterUserUseCase,
+          useValue: {
+            execute: jest.fn(),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignupPageComponent);
@@ -35,6 +38,9 @@ describe('SignupPageComponent', () => {
     password = fixture.debugElement.query(By.css('[data-testId="password"]'));
     confirmPassword = fixture.debugElement.query(By.css('[data-testId="confirm-password"]'));
     button = fixture.debugElement.query(By.css('[data-testId="submit-button"]'));
+    registerUserUseCaseMock = TestBed.inject(
+      RegisterUserUseCase,
+    ) as jest.Mocked<RegisterUserUseCase>;
   });
 
   it('should create', () => {
@@ -202,7 +208,7 @@ describe('SignupPageComponent', () => {
   });
 
   describe('when user submit the form', () => {
-    it('should trigger userStore Register', () => {
+    it('should trigger registerUserUseCaseMock.execute', () => {
       name.nativeElement.value = faker.person.lastName();
       name.nativeElement.dispatchEvent(new Event('input'));
       email.nativeElement.value = faker.internet.email();
@@ -214,9 +220,15 @@ describe('SignupPageComponent', () => {
       // don't forget this !!!
       fixture.detectChanges();
 
+      registerUserUseCaseMock.execute.mockReturnValue(Promise.resolve());
+      console.log('button', button.nativeElement.disabled);
       button.nativeElement.click();
 
-      expect(userStoreMock.register).toHaveBeenCalled();
+      expect(registerUserUseCaseMock.execute).toHaveBeenCalledWith({
+        name: name.nativeElement.value,
+        email: email.nativeElement.value,
+        password: password.nativeElement.value,
+      });
     });
   });
 });

@@ -1,7 +1,6 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { computed, inject } from '@angular/core';
-import { Visitor, User } from '@core/entities/user.interface';
-import { RegisterUserUseCaseService } from '@core/use-case/register-user.use-case.service';
+import { computed } from '@angular/core';
+import { User } from '@core/entities/user.interface';
 
 interface UserState {
   user: User | undefined;
@@ -19,13 +18,9 @@ export const UserStore = signalStore(
 
     return { isGoogleUser };
   }),
-  withMethods((store, registerUserUseCase = inject(RegisterUserUseCaseService)) => {
-    const register = (visitor: Visitor): void => {
-      registerUserUseCase.execute(visitor).then((user) => {
-        patchState(store, { user });
-      });
-    };
-
-    return { register };
-  }),
+  withMethods((store) => ({
+    register(user: User): void {
+      patchState(store, { user });
+    },
+  })),
 );

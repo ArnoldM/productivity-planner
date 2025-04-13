@@ -1,7 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserStore } from '@core/stores/user.store';
 import { Visitor } from '@core/entities/user.interface';
+import { RegisterUserUseCase } from './domain/register-user.use-case';
+import { EmailAlreadyTakenError } from './domain/email-already-taken.error';
 
 @Component({
   standalone: true,
@@ -10,22 +11,40 @@ import { Visitor } from '@core/entities/user.interface';
   styleUrl: './signup.page.component.scss',
 })
 export default class SignupPageComponent {
-  readonly userStore = inject(UserStore);
+  readonly #registerUserUseCase = inject(RegisterUserUseCase);
 
-  readonly name = signal<string>('');
-  readonly email = signal<string>('');
-  readonly password = signal<string>('');
-  readonly confirmPassword = signal<string>('');
-
+  readonly name = signal<string>('Jack');
+  readonly email = signal<string>('jack.doe@gmail.com');
+  readonly password = signal<string>('Password1$');
+  readonly confirmPassword = signal<string>('Password1$');
+  readonly isLoading = signal<boolean>(false);
+  readonly isEmailAlreadyTaken = signal<boolean>(false);
+  readonly emailAlreadyTakenError = signal<string | null>(null);
   readonly isPasswordMatchValid = computed(() => this.password() === this.confirmPassword());
 
   onSubmit() {
-    const user: Visitor = {
+    this.isLoading.set(true);
+
+    const visitor: Visitor = {
       name: this.name(),
       email: this.email(),
       password: this.password(),
     };
 
-    this.userStore.register(user);
+    this.#registerUserUseCase.execute(visitor).catch((error) => {
+      this.isLoading.set(false);
+
+      if (error instanceof EmailAlreadyTakenError) {
+        this.isEmailAlreadyTaken.set(true);
+        this.emailAlreadyTakenError.set(error.message);
+      } else {
+        console.error('Error during registration:', error);
+      }
+    });
+  }
+
+  onEmailChange() {
+    this.isEmailAlreadyTaken.set(false);
+    this.emailAlreadyTakenError.set(null);
   }
 }

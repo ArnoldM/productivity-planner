@@ -24,7 +24,8 @@
     ],
     "paths": {
       "@core/*": ["src/app/core/*"],
-      "@modules/*": ["src/app/modules/*"],
+      "@membership/*": ["src/app/membership/*"],
+      "@visitor/*": ["src/app/visitor/*"],
       "@shared/*": ["src/app/shared/*"],
       "@environments/*": ["src/environments/*"]
     }

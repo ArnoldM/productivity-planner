@@ -1,8 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RegisterResponse } from '@core/models/interfaces/register-response.interface';
-import { LoginResponse } from '@core/models/interfaces/login-response.interface';
 import { AuthenticationFirebaseService } from '@core/adapters/authentication-firebase.service';
+import { EmailAlreadyTakenError } from '@visitor/signup/domain/email-already-taken.error';
+
+export type RegisterResponse = RegisterPayload | EmailAlreadyTakenError;
+export type LoginResponse = LoginPayload;
+
+export interface LoginPayload {
+  jwtToken: string;
+  jwtRefreshToken: string;
+  expiresIn: string;
+  userId: string;
+  isRegistered: boolean;
+}
+
+export interface RegisterPayload {
+  jwtToken: string;
+  jwtRefreshToken: string;
+  expiresIn: string;
+  userId: string;
+}
 
 @Injectable({
   providedIn: 'root',

@@ -78,10 +78,7 @@ export class AuthenticationFirebaseService implements AuthenticationService {
         }),
       ),
       catchError((error: HttpErrorResponse) => {
-        if (
-          error.error.error.message === 'INVALID_PASSWORD' ||
-          error.error.error.message === 'EMAIL_NOT_FOUND'
-        ) {
+        if (error.error?.error?.message === 'INVALID_LOGIN_CREDENTIALS') {
           return of(new InvalidCredentialError());
         }
 

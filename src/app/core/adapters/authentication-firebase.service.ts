@@ -9,7 +9,7 @@ import {
 } from '@core/ports/authentication.service';
 import { EmailAlreadyTakenError } from '@visitor/signup/domain/email-already-taken.error';
 
-export interface FirebaseResponseSignin {
+interface FirebaseResponseSignin {
   kind: string;
   localId: string;
   email: string;
@@ -20,7 +20,7 @@ export interface FirebaseResponseSignin {
   expiresIn: string;
 }
 
-export interface FirebaseResponseSignup {
+interface FirebaseResponseSignup {
   idToken: string;
   email: string;
   refreshToken: string;
@@ -32,7 +32,7 @@ export interface FirebaseResponseSignup {
 export class AuthenticationFirebaseService implements AuthenticationService {
   readonly #http = inject(HttpClient);
 
-  register(email: string, password: string): Observable<RegisterResponse | EmailAlreadyTakenError> {
+  register(email: string, password: string): Observable<RegisterResponse> {
     const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`;
     const payload = {
       email,

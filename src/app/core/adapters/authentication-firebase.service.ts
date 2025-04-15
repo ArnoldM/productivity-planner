@@ -8,6 +8,7 @@ import {
   RegisterResponse,
 } from '@core/ports/authentication.service';
 import { EmailAlreadyTakenError } from '@visitor/signup/domain/email-already-taken.error';
+import { InvalidCredentialError } from '@visitor/login/domain/invalid-credential.error';
 
 interface FirebaseResponseSignin {
   kind: string;
@@ -76,6 +77,16 @@ export class AuthenticationFirebaseService implements AuthenticationService {
           isRegistered: response.registered,
         }),
       ),
+      catchError((error: HttpErrorResponse) => {
+        if (
+          error.error.error.message === 'INVALID_PASSWORD' ||
+          error.error.error.message === 'EMAIL_NOT_FOUND'
+        ) {
+          return of(new InvalidCredentialError());
+        }
+
+        return throwError(() => new Error(error.message));
+      }),
     );
   }
 }

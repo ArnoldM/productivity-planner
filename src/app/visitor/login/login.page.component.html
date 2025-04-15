@@ -1,6 +1,7 @@
 <div class="container">
   <form
     #form="ngForm"
+    (ngSubmit)="onSubmit()"
     class="col-12 col-lg-6 offset-lg-3 p-5"
     data-testid="form"
   >
@@ -52,7 +53,7 @@
     </div>
 
     <button
-      [disabled]="true"
+      [disabled]="form.invalid || form.pristine"
       type="submit"
       class="btn btn-primary"
       data-testid="submit-button"

@@ -28,7 +28,7 @@ export class LoginUserUseCase {
 
     const user = await firstValueFrom(this.#userService.fetch(userId, jwtToken));
 
-    this.#userStore.register(user);
+    this.#userStore.load(user);
 
     await this.#router.navigate(['/', APP_ROUTES.DASHBOARD]);
   }

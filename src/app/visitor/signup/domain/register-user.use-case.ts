@@ -38,7 +38,7 @@ export class RegisterUserUseCase {
     };
     await firstValueFrom(this.#userService.create(user, registerResponse.jwtToken));
 
-    this.#userStore.register(user);
+    this.#userStore.load(user);
 
     await this.#router.navigate(['/', APP_ROUTES.DASHBOARD]);
   }

@@ -13,6 +13,7 @@ import { User, Visitor } from '@core/entities/user.interface';
 import { faker } from '@faker-js/faker';
 import { of } from 'rxjs';
 import { EmailAlreadyTakenError } from '@visitor/signup/domain/email-already-taken.error';
+import { APP_ROUTES } from '@core/models/enums/routes.enum';
 
 describe('RegisterUserUseCase', () => {
   let service: RegisterUserUseCase;
@@ -169,7 +170,7 @@ describe('RegisterUserUseCase', () => {
 
       await service.execute(visitor);
 
-      expect(router.navigate).toHaveBeenCalledWith(['/', 'dashboard']);
+      expect(router.navigate).toHaveBeenCalledWith(['/', APP_ROUTES.APP, APP_ROUTES.DASHBOARD]);
     });
   });
 });

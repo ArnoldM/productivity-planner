@@ -30,6 +30,6 @@ export class LoginUserUseCase {
 
     this.#userStore.load(user);
 
-    await this.#router.navigate(['/', APP_ROUTES.DASHBOARD]);
+    await this.#router.navigate(['/', APP_ROUTES.APP, APP_ROUTES.DASHBOARD]);
   }
 }

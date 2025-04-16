@@ -10,7 +10,7 @@ export const routes: Routes = [
     title: 'Signup',
   },
   {
-    path: APP_ROUTES.DASHBOARD,
+    path: `${APP_ROUTES.APP}/${APP_ROUTES.DASHBOARD}`,
     loadComponent: () => import('./membership/dashboard/dashboard.page.component'),
     title: 'Dashboard',
   },

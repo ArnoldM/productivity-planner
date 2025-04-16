@@ -37,5 +37,7 @@ export abstract class AuthenticationService {
    * @param refreshToken - The refresh token used to obtain a new JWT.
    * @returns An Observable that emits the new JWT token as a string.
    */
-  abstract refreshToken(refreshToken: string): Observable<{ jwtToken: string; userId: string }>;
+  abstract refreshToken(
+    refreshToken: string,
+  ): Observable<{ jwtToken: string; userId: string; jwtRefreshToken: string }>;
 }

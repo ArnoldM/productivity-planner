@@ -96,17 +96,20 @@ export class AuthenticationFirebaseService implements AuthenticationService {
     );
   }
 
-  refreshToken(refreshToken: string): Observable<{ jwtToken: string; userId: string }> {
+  refreshToken(
+    jwtRefreshToken: string,
+  ): Observable<{ jwtToken: string; userId: string; jwtRefreshToken: string }> {
     const URL = `https://securetoken.googleapis.com/v1/token?key=${environment.firebaseConfig.apiKey}`;
     const params = new HttpParams()
       .set('grant_type', 'refresh_token')
-      .set('refresh_token', refreshToken)
+      .set('refresh_token', jwtRefreshToken)
       .toString();
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
     return this.#http.post<FirebaseResponseRefreshToken>(URL, params, { headers }).pipe(
       map((response) => ({
+        jwtRefreshToken: response.refresh_token,
         jwtToken: response.id_token,
         userId: response.user_id,
       })),

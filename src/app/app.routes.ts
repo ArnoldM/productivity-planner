@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomePageComponent } from './visitor/home-page/home-page.component';
+import { HomePageComponent } from '@visitor/home-page/home-page.component';
 import { APP_ROUTES } from '@core/models/enums/routes.enum';
 
 export const routes: Routes = [
@@ -10,7 +10,7 @@ export const routes: Routes = [
     title: 'Signup',
   },
   {
-    path: APP_ROUTES.DASHBOARD,
+    path: `${APP_ROUTES.APP}/${APP_ROUTES.DASHBOARD}`,
     loadComponent: () => import('./membership/dashboard/dashboard.page.component'),
     title: 'Dashboard',
   },

@@ -5,6 +5,13 @@ import { User } from '@core/entities/user.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
 
+export interface FirebaseResponseFetchUser {
+  fields: {
+    name: { stringValue: string };
+    email: { stringValue: string };
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,5 +38,23 @@ export class UserFirebaseService implements UserService {
     const options = { headers };
 
     return this.#http.post<unknown>(url, payload, options).pipe(map(() => undefined));
+  }
+
+  fetch(userId: string, bearerToken: string): Observable<User> {
+    const url = `${this.#FIRESTORE_URL}/${this.#USER_COLLECTION_ID}/${userId}?key=${this.#FIREBASE_API_KEY}`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${bearerToken}`,
+    });
+    const options = { headers };
+
+    return this.#http.get<FirebaseResponseFetchUser>(url, options).pipe(
+      map((response) => ({
+        id: userId,
+        name: response.fields.name.stringValue,
+        email: response.fields.email.stringValue,
+      })),
+    );
   }
 }

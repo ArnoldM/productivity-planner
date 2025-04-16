@@ -221,7 +221,6 @@ describe('SignupPageComponent', () => {
       fixture.detectChanges();
 
       registerUserUseCaseMock.execute.mockReturnValue(Promise.resolve());
-      console.log('button', button.nativeElement.disabled);
       button.nativeElement.click();
 
       expect(registerUserUseCaseMock.execute).toHaveBeenCalledWith({

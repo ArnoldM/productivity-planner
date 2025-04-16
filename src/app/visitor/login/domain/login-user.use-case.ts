@@ -1,42 +1,32 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthenticationService } from '@core/ports/authentication.service';
-import { User, Visitor } from '@core/entities/user.interface';
 import { firstValueFrom } from 'rxjs';
+import { InvalidCredentialError } from '@visitor/login/domain/invalid-credential.error';
 import { UserService } from '@core/ports/user.service';
 import { UserStore } from '@core/stores/user.store';
-import { EmailAlreadyTakenError } from './email-already-taken.error';
 import { APP_ROUTES } from '@core/models/enums/routes.enum';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RegisterUserUseCase {
+export class LoginUserUseCase {
   readonly #authenticationService = inject(AuthenticationService);
   readonly #userService = inject(UserService);
   readonly #userStore = inject(UserStore);
   readonly #router = inject(Router);
 
-  async execute(visitor: Visitor): Promise<void> {
-    const { email, password, name } = visitor;
-    const registerResponse = await firstValueFrom(
-      this.#authenticationService.register(email, password),
-    );
+  async execute(email: string, password: string): Promise<void> {
+    const loginResponse = await firstValueFrom(this.#authenticationService.login(email, password));
 
-    if (registerResponse instanceof EmailAlreadyTakenError) {
-      throw registerResponse;
+    if (loginResponse instanceof InvalidCredentialError) {
+      throw loginResponse;
     }
 
-    const { userId, jwtToken } = registerResponse;
-
+    const { jwtToken, userId } = loginResponse;
     localStorage.setItem('jwtToken', jwtToken);
 
-    const user: User = {
-      id: userId,
-      email,
-      name,
-    };
-    await firstValueFrom(this.#userService.create(user, registerResponse.jwtToken));
+    const user = await firstValueFrom(this.#userService.fetch(userId, jwtToken));
 
     this.#userStore.load(user);
 

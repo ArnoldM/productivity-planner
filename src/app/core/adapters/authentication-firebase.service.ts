@@ -8,8 +8,9 @@ import {
   RegisterResponse,
 } from '@core/ports/authentication.service';
 import { EmailAlreadyTakenError } from '@visitor/signup/domain/email-already-taken.error';
+import { InvalidCredentialError } from '@visitor/login/domain/invalid-credential.error';
 
-export interface FirebaseResponseSignin {
+interface FirebaseResponseSignin {
   kind: string;
   localId: string;
   email: string;
@@ -20,7 +21,7 @@ export interface FirebaseResponseSignin {
   expiresIn: string;
 }
 
-export interface FirebaseResponseSignup {
+interface FirebaseResponseSignup {
   idToken: string;
   email: string;
   refreshToken: string;
@@ -32,7 +33,7 @@ export interface FirebaseResponseSignup {
 export class AuthenticationFirebaseService implements AuthenticationService {
   readonly #http = inject(HttpClient);
 
-  register(email: string, password: string): Observable<RegisterResponse | EmailAlreadyTakenError> {
+  register(email: string, password: string): Observable<RegisterResponse> {
     const URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`;
     const payload = {
       email,
@@ -76,6 +77,13 @@ export class AuthenticationFirebaseService implements AuthenticationService {
           isRegistered: response.registered,
         }),
       ),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error?.error?.message === 'INVALID_LOGIN_CREDENTIALS') {
+          return of(new InvalidCredentialError());
+        }
+
+        return throwError(() => new Error(error.message));
+      }),
     );
   }
 }

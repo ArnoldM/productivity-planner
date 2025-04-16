@@ -1,14 +1,16 @@
 <div class="container">
   <form
     #form="ngForm"
+    (ngSubmit)="onSubmit()"
     class="col-12 col-lg-6 offset-lg-3 p-5"
     data-testid="form"
   >
     <!-- EMAIL -->
-    <div class="mb-3">
+    <div class="mb-3" [class.is-invalid]="isInvalidCredential()">
       <label for="email" class="form-label">Email</label>
       <input
         [(ngModel)]="email"
+        (ngModelChange)="onChange()"
         #emailField="ngModel"
         name="email"
         [class.is-invalid]="emailField.dirty && emailField.errors"
@@ -27,13 +29,13 @@
           <div class="invalid-feedback" data-testid="error-email-pattern">Email must be valid.</div>
         }
       }
-
     </div>
     <!-- PASSWORD -->
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
       <input
         [(ngModel)]="password"
+        (ngModelChange)="onChange()"
         #passwordField="ngModel"
         name="password"
         type="password"
@@ -45,14 +47,20 @@
         [class.is-invalid]="passwordField.dirty && passwordField.errors"
       />
       @if (passwordField.dirty && passwordField.hasError('required')) {
-        <div class="invalid-feedback" data-testId="error-password-required">
+        <div class="invalid-feedback" data-testid="error-password-required">
           Password is required.
         </div>
       }
     </div>
 
+    @if(isInvalidCredential()) {
+      <div class="invalid-feedback mb-3" data-testid="error-invalid-credentials">
+        {{ invalidCredentialError() }}
+      </div>
+    }
+
     <button
-      [disabled]="true"
+      [disabled]="form.invalid || form.pristine || isInvalidCredential()"
       type="submit"
       class="btn btn-primary"
       data-testid="submit-button"

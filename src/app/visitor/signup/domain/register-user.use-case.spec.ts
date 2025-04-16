@@ -13,12 +13,13 @@ import { User, Visitor } from '@core/entities/user.interface';
 import { faker } from '@faker-js/faker';
 import { of } from 'rxjs';
 import { EmailAlreadyTakenError } from '@visitor/signup/domain/email-already-taken.error';
+import { APP_ROUTES } from '@core/models/enums/routes.enum';
 
 describe('RegisterUserUseCase', () => {
   let service: RegisterUserUseCase;
   let authenticationService: jest.Mocked<AuthenticationService>;
   let userService: jest.Mocked<UserService>;
-  let userStore: jest.Mocked<{ register: jest.Mock }>;
+  let userStore: jest.Mocked<{ load: jest.Mock }>;
   let router: jest.Mocked<Router>;
   let visitor: Visitor;
 
@@ -64,7 +65,7 @@ describe('RegisterUserUseCase', () => {
         },
         {
           provide: UserStore,
-          useValue: { register: jest.fn() },
+          useValue: { load: jest.fn() },
         },
         {
           provide: Router,
@@ -77,7 +78,7 @@ describe('RegisterUserUseCase', () => {
       AuthenticationService,
     ) as jest.Mocked<AuthenticationService>;
     userService = TestBed.inject(UserService) as jest.Mocked<UserService>;
-    userStore = TestBed.inject(UserStore) as unknown as jest.Mocked<{ register: jest.Mock }>;
+    userStore = TestBed.inject(UserStore) as unknown as jest.Mocked<{ load: jest.Mock }>;
     router = TestBed.inject(Router) as jest.Mocked<Router>;
   });
 
@@ -123,11 +124,7 @@ describe('RegisterUserUseCase', () => {
     });
     it('should set jwtToken in local storage', async () => {
       const setItemSpy = jest.spyOn(localStorage, 'setItem');
-      // const user: User = {
-      //   id: (registerResponse as RegisterPayload).userId,
-      //   email: visitor.email,
-      //   name: visitor.name,
-      // };
+
       authenticationService.register.mockReturnValue(of(registerResponse));
       userService.create.mockReturnValue(of(undefined));
 
@@ -165,7 +162,7 @@ describe('RegisterUserUseCase', () => {
 
       await service.execute(visitor);
 
-      expect(userStore.register).toHaveBeenCalledWith(user);
+      expect(userStore.load).toHaveBeenCalledWith(user);
     });
     it('should navigate to the dashboard', async () => {
       authenticationService.register.mockReturnValue(of(registerResponse));
@@ -173,7 +170,7 @@ describe('RegisterUserUseCase', () => {
 
       await service.execute(visitor);
 
-      expect(router.navigate).toHaveBeenCalledWith(['/', 'dashboard']);
+      expect(router.navigate).toHaveBeenCalledWith(['/', APP_ROUTES.APP, APP_ROUTES.DASHBOARD]);
     });
   });
 });

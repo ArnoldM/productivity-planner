@@ -117,7 +117,7 @@ describe('LoginUserUseCase', () => {
 
       await expect(async () => await service.execute(email, token)).rejects.toThrow(errorMessage);
     });
-    it('should store the JWT token in local storage', async () => {
+    it('should store the JWT and jwtRefresh tokens in local storage', async () => {
       const setItemSpy = jest.spyOn(localStorage, 'setItem');
       authenticationService.login.mockReturnValue(of(loginResponse));
       userService.fetch.mockReturnValue(of(user));
@@ -125,6 +125,7 @@ describe('LoginUserUseCase', () => {
       await service.execute(user.email, loginResponse.jwtToken);
 
       expect(setItemSpy).toHaveBeenCalledWith('jwtToken', loginResponse.jwtToken);
+      expect(setItemSpy).toHaveBeenCalledWith('jwtRefreshToken', loginResponse.jwtRefreshToken);
     });
     it('should fetch the user details using userService', async () => {
       authenticationService.login.mockReturnValue(of(loginResponse));

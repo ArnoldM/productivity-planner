@@ -122,7 +122,7 @@ describe('RegisterUserUseCase', () => {
 
       await expect(async () => await service.execute(visitor)).rejects.toThrow(errorMessage);
     });
-    it('should set jwtToken in local storage', async () => {
+    it('should set jwtToken and jwtRefreshToken in local storage', async () => {
       const setItemSpy = jest.spyOn(localStorage, 'setItem');
 
       authenticationService.register.mockReturnValue(of(registerResponse));
@@ -133,6 +133,10 @@ describe('RegisterUserUseCase', () => {
       expect(setItemSpy).toHaveBeenCalledWith(
         'jwtToken',
         (registerResponse as RegisterPayload).jwtToken,
+      );
+      expect(setItemSpy).toHaveBeenCalledWith(
+        'jwtRefreshToken',
+        (registerResponse as RegisterPayload).jwtRefreshToken,
       );
     });
     it('should call userService.create with the user and jwtToken', async () => {

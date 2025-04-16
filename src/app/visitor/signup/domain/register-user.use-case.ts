@@ -27,9 +27,10 @@ export class RegisterUserUseCase {
       throw registerResponse;
     }
 
-    const { userId, jwtToken } = registerResponse;
+    const { userId, jwtToken, jwtRefreshToken } = registerResponse;
 
     localStorage.setItem('jwtToken', jwtToken);
+    localStorage.setItem('jwtRefreshToken', jwtRefreshToken);
 
     const user: User = {
       id: userId,

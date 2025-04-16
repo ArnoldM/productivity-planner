@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import {
@@ -27,6 +27,15 @@ interface FirebaseResponseSignup {
   refreshToken: string;
   expiresIn: string;
   localId: string;
+}
+
+interface FirebaseResponseRefreshToken {
+  id_token: string;
+  user_id: string;
+  expires_in: number;
+  token_type: string;
+  refresh_token: string;
+  project_id: string;
 }
 
 @Injectable()
@@ -82,6 +91,29 @@ export class AuthenticationFirebaseService implements AuthenticationService {
           return of(new InvalidCredentialError());
         }
 
+        return throwError(() => new Error(error.message));
+      }),
+    );
+  }
+
+  refreshToken(
+    jwtRefreshToken: string,
+  ): Observable<{ jwtToken: string; userId: string; jwtRefreshToken: string }> {
+    const URL = `https://securetoken.googleapis.com/v1/token?key=${environment.firebaseConfig.apiKey}`;
+    const params = new HttpParams()
+      .set('grant_type', 'refresh_token')
+      .set('refresh_token', jwtRefreshToken)
+      .toString();
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+    return this.#http.post<FirebaseResponseRefreshToken>(URL, params, { headers }).pipe(
+      map((response) => ({
+        jwtRefreshToken: response.refresh_token,
+        jwtToken: response.id_token,
+        userId: response.user_id,
+      })),
+      catchError((error: HttpErrorResponse) => {
         return throwError(() => new Error(error.message));
       }),
     );

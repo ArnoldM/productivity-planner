@@ -23,8 +23,9 @@ export class LoginUserUseCase {
       throw loginResponse;
     }
 
-    const { jwtToken, userId } = loginResponse;
+    const { jwtToken, jwtRefreshToken, userId } = loginResponse;
     localStorage.setItem('jwtToken', jwtToken);
+    localStorage.setItem('jwtRefreshToken', jwtRefreshToken);
 
     const user = await firstValueFrom(this.#userService.fetch(userId, jwtToken));
 

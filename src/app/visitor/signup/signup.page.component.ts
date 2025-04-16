@@ -13,10 +13,10 @@ import { EmailAlreadyTakenError } from './domain/email-already-taken.error';
 export default class SignupPageComponent {
   readonly #registerUserUseCase = inject(RegisterUserUseCase);
 
-  readonly name = signal<string>('Jack');
-  readonly email = signal<string>('jack.doe@gmail.com');
-  readonly password = signal<string>('Password1$');
-  readonly confirmPassword = signal<string>('Password1$');
+  readonly name = signal<string>('');
+  readonly email = signal<string>('');
+  readonly password = signal<string>('');
+  readonly confirmPassword = signal<string>('');
   readonly isLoading = signal<boolean>(false);
   readonly isEmailAlreadyTaken = signal<boolean>(false);
   readonly emailAlreadyTakenError = signal<string | null>(null);

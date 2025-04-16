@@ -10,6 +10,7 @@ const initialState: UserState = {
   user: undefined,
 };
 
+export type UserStore = InstanceType<typeof UserStore>;
 export const UserStore = signalStore(
   { providedIn: 'root' },
   withState<UserState>(initialState),

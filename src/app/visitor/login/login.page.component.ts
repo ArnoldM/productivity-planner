@@ -11,8 +11,8 @@ import { InvalidCredentialError } from '@visitor/login/domain/invalid-credential
 export default class LoginPageComponent {
   readonly #loginUserUseCase = inject(LoginUserUseCase);
 
-  readonly email = signal<string>('jack.doe@gmail.com2');
-  readonly password = signal<string>('Password1$');
+  readonly email = signal<string>('');
+  readonly password = signal<string>('');
   readonly isLoading = signal<boolean>(false);
   readonly isInvalidCredential = signal<boolean>(true);
   readonly invalidCredentialError = signal<string | null>(null);

@@ -2,14 +2,11 @@ import { AuthenticationService } from '@core/ports/authentication.service';
 import { switchMap, tap } from 'rxjs';
 import { UserService } from '@core/ports/user.service';
 import { UserStore } from '@core/stores/user.store';
-import { APP_ROUTES } from '@core/models/enums/routes.enum';
-import { Router } from '@angular/router';
 
 export function initializeAutoConnectFactory(
   authenticationService: AuthenticationService,
   userService: UserService,
   userStore: UserStore,
-  router: Router,
 ): () => Promise<void> {
   return () =>
     new Promise((resolve, reject) => {
@@ -31,9 +28,7 @@ export function initializeAutoConnectFactory(
         .subscribe({
           next: (user) => {
             userStore.load(user);
-            router.navigate(['/', APP_ROUTES.APP, APP_ROUTES.DASHBOARD]).then(() => {
-              resolve();
-            });
+            resolve();
           },
           error: (error) => {
             console.error('Error during auto-connect:', error);

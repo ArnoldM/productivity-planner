@@ -55,7 +55,7 @@
         #emailField="ngModel"
         name="email"
         email
-        [class.is-invalid]="emailField.dirty && emailField.errors || isEmailAlreadyTaken()"
+        [class.is-invalid]="(emailField.dirty && emailField.errors) || isEmailAlreadyTaken()"
         type="email"
         class="form-control"
         id="email"
@@ -135,7 +135,13 @@
     </div>
 
     <button
-      [disabled]="form.invalid || form.pristine || !isPasswordMatchValid() || isLoading() || isEmailAlreadyTaken()"
+      [disabled]="
+        form.invalid ||
+        form.pristine ||
+        !isPasswordMatchValid() ||
+        isLoading() ||
+        isEmailAlreadyTaken()
+      "
       type="submit"
       class="btn btn-primary"
       data-testid="submit-button"

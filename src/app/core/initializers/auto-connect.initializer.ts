@@ -2,7 +2,6 @@ import { AuthenticationService } from '@core/ports/authentication.service';
 import { switchMap, tap } from 'rxjs';
 import { UserService } from '@core/ports/user.service';
 import { UserStore } from '@core/stores/user.store';
-import { Router } from '@angular/router';
 
 export function initializeAutoConnectFactory(
   authenticationService: AuthenticationService,

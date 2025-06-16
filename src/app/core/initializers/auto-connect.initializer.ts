@@ -31,9 +31,7 @@ export function initializeAutoConnectFactory(
         .subscribe({
           next: (user) => {
             userStore.load(user);
-            router.navigate(['/', APP_ROUTES.APP, APP_ROUTES.DASHBOARD]).then(() => {
-              resolve();
-            });
+            resolve();
           },
           error: (error) => {
             console.error('Error during auto-connect:', error);

@@ -4,4 +4,8 @@ export enum APP_ROUTES {
   LOGIN = 'login',
   SIGNUP = 'signup',
   DASHBOARD = 'dashboard',
+  PLANNING = 'planning',
+  WORKDAY = 'workday',
+  PROFILE = 'profile',
+  SETTINGS = 'settings',
 }

@@ -8,9 +8,8 @@ describe('ShellLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ShellLayoutComponent]
-    })
-    .compileComponents();
+      imports: [ShellLayoutComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ShellLayoutComponent);
     component = fixture.componentInstance;

@@ -22,19 +22,21 @@
       </div>
       <div class="d-flex align-items-center gap-2">
         <select class="form-select w-auto">
-          <option>1</option>
-          <option>2</option>
-          <option selected>3</option>
+          <option [value]="1">1</option>
+          <option [value]="2">2</option>
+          <option [value]="3">3</option>
+          <option [value]="4">4</option>
+          <option [value]="5">5</option>
         </select>
         <div class="d-flex gap-1">
-          <i class="bi bi-pause-circle"></i>
-          <i class="bi bi-pause-circle"></i>
-          <i class="bi bi-pause-circle"></i>
-          <i class="bi bi-pause-circle"></i>
-          <i class="bi bi-pause-circle"></i>
+          <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+          <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+          <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+          <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+          <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
         </div>
-        <span>0</span>
-        <i class="bi bi-flag-checkered"></i>
+        <span class="fs-5">0</span>
+        <span class="fs-5">🏁</span>
       </div>
     </div>
   </div>
@@ -53,19 +55,21 @@
         </div>
         <div class="d-flex align-items-center gap-2">
           <select class="form-select w-auto">
-            <option selected>1</option>
-            <option>2</option>
-            <option>3</option>
+            <option [value]="1">1</option>
+            <option [value]="2">2</option>
+            <option [value]="3">3</option>
+            <option [value]="4">4</option>
+            <option [value]="5">5</option>
           </select>
           <div class="d-flex gap-1">
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
           </div>
-          <span>0</span>
-          <i class="bi bi-lock-fill"></i>
+          <span class="fs-5">0</span>
+          <i class="bi bi-lock-fill fs-5"></i>
         </div>
       </div>
     }
@@ -85,19 +89,21 @@
         </div>
         <div class="d-flex align-items-center gap-2">
           <select class="form-select w-auto">
-            <option selected>1</option>
-            <option>2</option>
-            <option>3</option>
+            <option [value]="1">1</option>
+            <option [value]="2">2</option>
+            <option [value]="3">3</option>
+            <option [value]="4">4</option>
+            <option [value]="5">5</option>
           </select>
           <div class="d-flex gap-1">
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
-            <i class="bi bi-pause-circle"></i>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
+            <button class="btn btn-sm"><i class="bi bi-pause-btn-fill text-secondary fs-5"></i></button>
           </div>
-          <span>0</span>
-          <i class="bi bi-lock-fill"></i>
+          <span class="fs-5">0</span>
+          <i class="bi bi-lock-fill  fs-5"></i>
         </div>
       </div>
     }
@@ -105,6 +111,6 @@
 
   <!-- Add Task Link -->
   <div class="text-center">
-    <a href="#" (click)="addTask()">Ajouter une tâche</a>
+    <button (click)="addTask()" class="btn btn-link text-muted">Ajouter une tâche</button>
   </div>
 </div>

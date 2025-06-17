@@ -1,1 +1,146 @@
-<p>workday works!</p>
+<div class="container flex py-5">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div></div>
+    <div class="form-group text-center">
+      <label for="workDay" class="form-label fw-bold">Working Day</label>
+      <input type="date" class="form-control" id="workDay" [(ngModel)]="selectedDate" />
+    </div>
+    <button class="btn btn-success align-self-end">Start the work day</button>
+  </div>
+
+  <!-- Most Important Task -->
+  <div class="mb-4">
+    <h6>Most important task</h6>
+    <div class="card p-3 d-flex flex-row align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <select class="form-select w-auto" [(ngModel)]="selectedOption">
+          <option [value]="'⛳️'">⛳️</option>
+          <option [value]="'🎯'">🎯</option>
+        </select>
+        <span class="fs-5">Tâche n°1</span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <select class="form-select w-auto">
+          <option [value]="1">1</option>
+          <option [value]="2">2</option>
+          <option [value]="3">3</option>
+          <option [value]="4">4</option>
+          <option [value]="5">5</option>
+        </select>
+        <div class="d-flex gap-1">
+          <button class="btn btn-sm">
+            <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+          </button>
+          <button class="btn btn-sm">
+            <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+          </button>
+          <button class="btn btn-sm">
+            <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+          </button>
+          <button class="btn btn-sm">
+            <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+          </button>
+          <button class="btn btn-sm">
+            <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+          </button>
+        </div>
+        <span class="fs-5">0</span>
+        <span class="fs-5">🏁</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secondary Tasks -->
+  <div class="mb-4">
+    <h6 class="fw-bold">Tâches de seconde importance</h6>
+    @for (task of secondaryTasks; track $index) {
+      <div class="card p-3 d-flex flex-row align-items-center justify-content-between mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <select class="form-select w-auto" [(ngModel)]="selectedOption">
+            <option [value]="'⛳️'">⛳️</option>
+            <option [value]="'🎯'">🎯</option>
+          </select>
+          <span class="fs-5">{{ task.name }}</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <select class="form-select w-auto">
+            <option [value]="1">1</option>
+            <option [value]="2">2</option>
+            <option [value]="3">3</option>
+            <option [value]="4">4</option>
+            <option [value]="5">5</option>
+          </select>
+          <div class="d-flex gap-1">
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+          </div>
+          <span class="fs-5">0</span>
+          <i class="bi bi-lock-fill fs-5"></i>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Remaining Tasks -->
+  <div class="mb-4">
+    <h6 class="fw-bold">Tâches restantes</h6>
+    @for (task of remainingTasks; track $index) {
+      <div class="card p-3 d-flex flex-row align-items-center justify-content-between mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <select class="form-select w-auto" [(ngModel)]="selectedOption">
+            <option [value]="'⛳️'">⛳️</option>
+            <option [value]="'🎯'">🎯</option>
+          </select>
+          <span class="fs-5">{{ task.name }}</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <select class="form-select w-auto">
+            <option [value]="1">1</option>
+            <option [value]="2">2</option>
+            <option [value]="3">3</option>
+            <option [value]="4">4</option>
+            <option [value]="5">5</option>
+          </select>
+          <div class="d-flex gap-1">
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+            <button class="btn btn-sm">
+              <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+            </button>
+          </div>
+          <span class="fs-5">0</span>
+          <i class="bi bi-lock-fill fs-5"></i>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Add Task Link -->
+  <div class="text-center">
+    <button (click)="addTask()" class="btn btn-link text-muted">Ajouter une tâche</button>
+  </div>
+</div>

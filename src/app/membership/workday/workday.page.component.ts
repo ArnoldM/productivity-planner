@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { WorkdayPageStore, WorkdayPageStoreType } from '@membership/workday/workday.page.store';
 
 @Component({
   selector: 'app-workday',
@@ -9,8 +10,11 @@ import { FormsModule } from '@angular/forms';
   host: {
     class: 'app-workday w-100',
   },
+  providers: [WorkdayPageStore],
 })
 export default class WorkdayPageComponent {
+  readonly localStore: WorkdayPageStoreType = inject(WorkdayPageStore);
+
   selectedDate = '2019-02-28';
   selectedOption = '⛳️';
   secondaryTasks = [{ name: 'Tâche n°2' }, { name: 'Tâche n°3' }];

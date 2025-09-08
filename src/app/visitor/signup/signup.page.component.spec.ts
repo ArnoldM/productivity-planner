@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import SignupPageComponent from './signup.page.component';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { faker } from '@faker-js/faker';
 import { RegisterUserUseCase } from '@visitor/signup/domain/register-user.use-case';
@@ -20,6 +20,7 @@ describe('SignupPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SignupPageComponent],
       providers: [
+        provideZonelessChangeDetection(),
         {
           provide: RegisterUserUseCase,
           useValue: {

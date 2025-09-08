@@ -1,5 +1,5 @@
 import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { expect, within } from '@storybook/test';
+import { expect, within } from 'storybook/test';
 import { HomepageFeatureCardListDumbComponent } from './homepage-feature-card-list.dumb.component';
 import { Card } from '../models/card.interface';
 

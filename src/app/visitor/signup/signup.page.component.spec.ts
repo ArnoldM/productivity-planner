@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import SignupPageComponent from './signup.page.component';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { faker } from '@faker-js/faker';
 import { RegisterUserUseCase } from '@visitor/signup/domain/register-user.use-case';
@@ -20,6 +20,7 @@ describe('SignupPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SignupPageComponent],
       providers: [
+        provideZonelessChangeDetection(),
         {
           provide: RegisterUserUseCase,
           useValue: {
@@ -208,7 +209,7 @@ describe('SignupPageComponent', () => {
   });
 
   describe('when user submit the form', () => {
-    it('should trigger registerUserUseCaseMock.execute', () => {
+    it('should trigger registerUserUseCaseMock.execute', async () => {
       name.nativeElement.value = faker.person.lastName();
       name.nativeElement.dispatchEvent(new Event('input'));
       email.nativeElement.value = faker.internet.email();
@@ -218,7 +219,7 @@ describe('SignupPageComponent', () => {
       confirmPassword.nativeElement.value = 'Password1$';
       confirmPassword.nativeElement.dispatchEvent(new Event('input'));
       // don't forget this !!!
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       registerUserUseCaseMock.execute.mockReturnValue(Promise.resolve());
       button.nativeElement.click();

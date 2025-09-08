@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeBannerDumbComponent } from './home-banner.dumb.component';
 import { faker } from '@faker-js/faker';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 
 describe('HomeBannerDumbComponent', () => {
   let component: HomeBannerDumbComponent;
@@ -12,9 +12,10 @@ describe('HomeBannerDumbComponent', () => {
   const description = faker.lorem.paragraph();
   const button = faker.lorem.words();
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [HomeBannerDumbComponent],
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeBannerDumbComponent);
@@ -24,7 +25,7 @@ describe('HomeBannerDumbComponent', () => {
     fixture.componentRef.setInput('description', description);
     fixture.componentRef.setInput('button', button);
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -46,9 +47,9 @@ describe('HomeBannerDumbComponent', () => {
   describe('button', () => {
     let buttonFixture: DebugElement;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       buttonFixture = fixture.debugElement.query(By.css('[data-testId="home-banner-button"]'));
-    }));
+    });
 
     it('should be displayed', () => {
       expect(buttonFixture.nativeElement.textContent).toContain(button);

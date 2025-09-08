@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import LoginPageComponent from './login.page.component';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { faker } from '@faker-js/faker';
 import { LoginUserUseCase } from '@visitor/login/domain/login-user.use-case';
 import { InvalidCredentialError } from '@visitor/login/domain/invalid-credential.error';
@@ -18,7 +18,10 @@ describe('LoginPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginPageComponent],
-      providers: [{ provide: LoginUserUseCase, useValue: { execute: jest.fn() } }],
+      providers: [
+        provideZonelessChangeDetection(),
+        { provide: LoginUserUseCase, useValue: { execute: jest.fn() } },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPageComponent);
@@ -127,16 +130,16 @@ describe('LoginPageComponent', () => {
       expect(credentialsError).toBeFalsy();
     });
 
-    it('should display error message when loginUserUseCase.execute fails with InvalidCredentials error', () => {
+    it('should display error message when loginUserUseCase.execute fails with InvalidCredentials error', async () => {
       email.nativeElement.value = faker.internet.email();
       email.nativeElement.dispatchEvent(new Event('input'));
       password.nativeElement.value = 'Password1$';
       password.nativeElement.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       loginUserUseCaseMock.execute.mockReturnValue(Promise.reject(new InvalidCredentialError()));
       button.nativeElement.click();
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       const error = fixture.debugElement.query(By.css('[data-testId="error-invalid-credentials"]'));
       const errorMessage = error.nativeElement.textContent;

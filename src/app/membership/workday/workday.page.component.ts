@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './workday.page.component.html',
   styleUrl: './workday.page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'app-workday w-100',
   },

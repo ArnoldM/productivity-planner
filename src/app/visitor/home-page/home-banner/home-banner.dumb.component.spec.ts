@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeBannerDumbComponent } from './home-banner.dumb.component';
 import { faker } from '@faker-js/faker';

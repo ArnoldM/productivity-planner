@@ -1,5 +1,5 @@
 import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { expect, within } from '@storybook/test';
+import { expect, within } from 'storybook/test';
 import { HomeBannerDumbComponent } from './home-banner.dumb.component';
 
 const meta: Meta<HomeBannerDumbComponent> = {

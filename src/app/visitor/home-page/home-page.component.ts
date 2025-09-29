@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Card } from './models/card.interface';
 import { HomeBannerDumbComponent } from './home-banner/home-banner.dumb.component';
 import { HomepageFeatureCardListDumbComponent } from './homepage-feature-card-list/homepage-feature-card-list.dumb.component';
@@ -7,6 +7,7 @@ import { HomepageFeatureCardListDumbComponent } from './homepage-feature-card-li
   imports: [HomeBannerDumbComponent, HomepageFeatureCardListDumbComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent {
   readonly cardList = signal<Card[]>([

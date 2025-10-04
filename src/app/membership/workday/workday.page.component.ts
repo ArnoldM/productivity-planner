@@ -17,5 +17,5 @@ export default class WorkdayPageComponent {
   readonly localStore: WorkdayPageStoreType = inject(WorkdayPageStore);
 
   selectedOption = '⛳️';
-  selectedDate = '2019-02-28';
+  selectedDate = new Date().toISOString().split('T')[0];
 }

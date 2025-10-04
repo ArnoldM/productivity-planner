@@ -59,6 +59,13 @@ The project implements hexagonal architecture with:
 - **Ports** (`src/app/core/ports/`): Abstract service interfaces
 - **Adapters** (`src/app/core/adapters/`): Concrete implementations (Firebase services)
 - **Domain** (`src/app/*/domain/`): Business logic and use cases within feature modules
+- **Use Cases** (`src/app/*/domain/*.use-case.ts`): Application-specific business rules (e.g., `AddTaskUseCase`, `LoginUserUseCase`, `RegisterUserUseCase`)
+
+#### Domain Entities
+The application uses immutable entities for core business objects:
+- **Task** (`src/app/core/entities/task.entity.ts`): Represents a task with immutable properties
+- **Workday** (`src/app/core/entities/workday.entity.ts`): Represents a workday with immutable task list management
+- **User** (`src/app/core/entities/user.interface.ts`): User interface for authentication state
 
 #### Component Naming Convention
 - **Smart Components**: `.smart.component.ts` - Handle business logic and state
@@ -108,6 +115,30 @@ According to the README, the team follows this process:
 3. One reviewer required
 4. CI steps are mandatory
 5. Merge when approved
+
+### Git Commit Conventions
+When creating commits, follow these guidelines:
+- **Staged files only**: Only commit files that are currently staged (`git status` shows "Modifications qui seront validées")
+- **Concise messages**: Keep commit messages brief and focused on the change
+- **No AI references**: Never include references to AI tools, Claude, or automated generation in commit messages
+- **Conventional Commits format**: Use standard prefixes:
+  - `feat:` - New features
+  - `fix:` - Bug fixes
+  - `refactor:` - Code refactoring
+  - `test:` - Adding or updating tests
+  - `docs:` - Documentation changes
+  - `chore:` - Maintenance tasks
+  - `style:` - Code formatting (not CSS)
+  - `perf:` - Performance improvements
+- **Example**: `feat: add task creation to workday page` (not "feat: AI-generated task creation feature")
+
+#### Commit Process
+1. Run `git status` to see staged changes
+2. Run `git diff --staged` to review what will be committed
+3. Run `git log -5 --oneline` to check recent commit style
+4. Analyze ONLY the staged changes to determine the appropriate commit type and message
+5. Create a concise commit message that describes what the staged files do
+6. Commit with the message (no AI references, no extra metadata)
 
 ## Environment Configuration
 The project supports three environments:

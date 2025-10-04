@@ -4,7 +4,7 @@
     <div></div>
     <div class="form-group text-center">
       <label for="workDay" class="form-label fw-bold">Working Day</label>
-      <input type="date" class="form-control" id="workDay" [(ngModel)]="selectedDate"/>
+      <input type="date" class="form-control" id="workDay" [(ngModel)]="selectedDate" />
     </div>
     <button class="btn btn-success align-self-end">Start the work day</button>
   </div>
@@ -24,7 +24,7 @@
           <option [value]="'⛳️'">⛳️</option>
           <option [value]="'🎯'">🎯</option>
         </select>
-        <input class="fs-5" [value]="task.title"/>
+        <input class="fs-5" [value]="task.title" />
       </div>
       <div class="d-flex align-items-center gap-2">
         <select class="form-select w-auto">
@@ -60,7 +60,9 @@
   @if (localStore.shouldDisplayAddButton()) {
     <!-- Add Task Link -->
     <div class="text-center">
-      <button (click)="localStore.onAddTask()" class="btn btn-link text-muted">Ajouter une tâche</button>
+      <button (click)="localStore.onAddTask()" class="btn btn-link text-muted">
+        Ajouter une tâche
+      </button>
     </div>
   }
 </div>

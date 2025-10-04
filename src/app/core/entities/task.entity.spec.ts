@@ -16,31 +16,31 @@ describe('Task', () => {
   describe('constructor validation', () => {
     it('should throw error if title is empty', () => {
       expect(() => {
-        new (Task as any)('Hit the target', '', 1);
+        Task.create('Hit the target', '', 1);
       }).toThrow('Task title cannot be empty');
     });
 
     it('should throw error if title is only whitespace', () => {
       expect(() => {
-        new (Task as any)('Hit the target', '   ', 1);
+        Task.create('Hit the target', '   ', 1);
       }).toThrow('Task title cannot be empty');
     });
 
     it('should throw error if pomodoro list length does not match count', () => {
       expect(() => {
-        new (Task as any)('Hit the target', 'Test', 3, ['Not started']);
+        Task.create('Hit the target', 'Test', 3, ['Not started']);
       }).toThrow('Pomodoro list length(1) must match pomodoro count (3)');
     });
 
     it('should create pomodoro list from count if not provided', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 3);
+      const task = Task.create('Hit the target', 'Test', 3);
 
       expect(task.pomodoroList).toEqual(['Not started', 'Not started', 'Not started']);
     });
 
     it('should accept valid pomodoro list', () => {
       const pomodoroList = ['In progress', 'Done', 'Not started'];
-      const task = new (Task as any)('Hit the target', 'Test', 3, pomodoroList);
+      const task = Task.create('Hit the target', 'Test', 3, pomodoroList);
 
       expect(task.pomodoroList).toEqual(pomodoroList);
     });
@@ -48,13 +48,13 @@ describe('Task', () => {
 
   describe('type', () => {
     it('should be "Hit the target"', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 1);
+      const task = Task.create('Hit the target', 'Test', 1);
 
       expect(task.type).toBe('Hit the target');
     });
 
     it('should be "Get things done"', () => {
-      const task = new (Task as any)('Get things done', 'Test', 1);
+      const task = Task.create('Get things done', 'Test', 1);
 
       expect(task.type).toBe('Get things done');
     });
@@ -70,7 +70,7 @@ describe('Task', () => {
 
   describe('pomodoroCount getter', () => {
     it('should return the pomodoro count', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 3);
+      const task = Task.create('Hit the target', 'Test', 3);
 
       expect(task.pomodoroCount).toBe(3);
     });
@@ -118,7 +118,7 @@ describe('Task', () => {
 
   describe('withPomodoroStatus', () => {
     it('should return a new Task with updated status', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 3);
+      const task = Task.create('Hit the target', 'Test', 3);
 
       const result = task.withPomodoroStatus(1, 'In progress');
 
@@ -176,7 +176,7 @@ describe('Task', () => {
     });
 
     it('should preserve existing statuses when increasing count', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 2, ['Done', 'In progress']);
+      const task = Task.create('Hit the target', 'Test', 2, ['Done', 'In progress']);
 
       const result = task.withPomodoroCount(4);
 
@@ -184,7 +184,7 @@ describe('Task', () => {
     });
 
     it('should truncate list when decreasing count', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 4, [
+      const task = Task.create('Hit the target', 'Test', 4, [
         'Done',
         'In progress',
         'Not started',
@@ -207,21 +207,21 @@ describe('Task', () => {
 
   describe('edge cases', () => {
     it('should handle minimum pomodoro count (1)', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 1);
+      const task = Task.create('Hit the target', 'Test', 1);
 
       expect(task.pomodoroCount).toBe(1);
       expect(task.pomodoroList.length).toBe(1);
     });
 
     it('should handle maximum pomodoro count (5)', () => {
-      const task = new (Task as any)('Hit the target', 'Test', 5);
+      const task = Task.create('Hit the target', 'Test', 5);
 
       expect(task.pomodoroCount).toBe(5);
       expect(task.pomodoroList.length).toBe(5);
     });
 
     it('should trim title whitespace during validation', () => {
-      const task = new (Task as any)('Hit the target', '  Valid Title  ', 1);
+      const task = Task.create('Hit the target', '  Valid Title  ', 1);
 
       // Title is stored as-is, but validation checks trimmed version
       expect(task.title).toBe('  Valid Title  ');

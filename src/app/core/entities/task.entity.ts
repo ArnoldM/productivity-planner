@@ -35,6 +35,15 @@ export class Task {
     return new Task('Hit the target', 'Nouvelle tâche', 1, ['Not started']);
   }
 
+  static create(
+    type: TaskType,
+    title: string,
+    pomodoroCount: PomodoroCount,
+    pomodoroList?: PomodoroStatus[],
+  ): Task {
+    return new Task(type, title, pomodoroCount, pomodoroList);
+  }
+
   get title(): string {
     return this.#title;
   }

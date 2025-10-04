@@ -24,6 +24,10 @@ export class Workday {
     return new Workday(new Date(), [Task.createEmptyTask()]);
   }
 
+  static create(date: string | Date, taskList: Task[]): Workday {
+    return new Workday(date, taskList);
+  }
+
   get taskList(): readonly Task[] {
     return this.#taskList;
   }

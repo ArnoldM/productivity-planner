@@ -22,13 +22,13 @@ describe('Workday', () => {
   describe('constructor validation', () => {
     it('should throw error if date is invalid', () => {
       expect(() => {
-        new (Workday as any)('invalid-date', [Task.createEmptyTask()]);
+        Workday.create('invalid-date', [Task.createEmptyTask()]);
       }).toThrow('Invalid date format.');
     });
 
     it('should throw error if task list is empty', () => {
       expect(() => {
-        new (Workday as any)(new Date(), []);
+        Workday.create(new Date(), []);
       }).toThrow('Task list must contain between 1 and 6 tasks.');
     });
 
@@ -36,19 +36,19 @@ describe('Workday', () => {
       const tasks = Array.from({ length: 7 }, () => Task.createEmptyTask());
 
       expect(() => {
-        new (Workday as any)(new Date(), tasks);
+        Workday.create(new Date(), tasks);
       }).toThrow('Task list must contain between 1 and 6 tasks.');
     });
 
     it('should accept Date object', () => {
       const date = new Date('2025-01-15');
-      const workday = new (Workday as any)(date, [Task.createEmptyTask()]);
+      const workday = Workday.create(date, [Task.createEmptyTask()]);
 
       expect(workday.date).toBe('2025-01-15');
     });
 
     it('should accept string date', () => {
-      const workday = new (Workday as any)('2025-01-15', [Task.createEmptyTask()]);
+      const workday = Workday.create('2025-01-15', [Task.createEmptyTask()]);
 
       expect(workday.date).toBe('2025-01-15');
     });

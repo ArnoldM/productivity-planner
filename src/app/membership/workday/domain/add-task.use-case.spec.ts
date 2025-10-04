@@ -66,9 +66,7 @@ describe('AddTaskUseCase', () => {
         workday = workday.addEmptyTask();
       }
 
-      expect(() => useCase.execute(workday)).toThrow(
-        'Cannot add more than 6 tasks to a workday.',
-      );
+      expect(() => useCase.execute(workday)).toThrow('Cannot add more than 6 tasks to a workday.');
     });
 
     it('should maintain the workday date when adding a task', () => {

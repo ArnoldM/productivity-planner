@@ -4,9 +4,9 @@ type PomodoroCount = 1 | 2 | 3 | 4 | 5;
 
 export class Task {
   readonly type: TaskType;
-  #title: string;
-  #pomodoroCount: PomodoroCount;
-  #pomodoroList: PomodoroStatus[];
+  readonly #title: string;
+  readonly #pomodoroCount: PomodoroCount;
+  readonly #pomodoroList: readonly PomodoroStatus[];
 
   private constructor(
     type: TaskType,
@@ -39,34 +39,38 @@ export class Task {
     return this.#title;
   }
 
-  get pomodoroCount(): 1 | 2 | 3 | 4 | 5 {
+  get pomodoroCount(): PomodoroCount {
     return this.#pomodoroCount;
   }
 
-  get pomodoroList(): PomodoroStatus[] {
+  get pomodoroList(): readonly PomodoroStatus[] {
     return this.#pomodoroList;
   }
 
-  updateTitle(newTitle: string): void {
+  withTitle(newTitle: string): Task {
     if (!newTitle.trim()) {
       throw new Error('Task title cannot be empty');
     }
-    this.#title = newTitle;
+    return new Task(this.type, newTitle, this.#pomodoroCount, [...this.#pomodoroList]);
   }
 
-  updatePomodoroStatus(index: number, status: PomodoroStatus): void {
+  withPomodoroStatus(index: number, status: PomodoroStatus): Task {
     if (index < 0 || index >= this.#pomodoroList.length) {
       throw new Error('Invalid pomodoro index');
     }
-    this.#pomodoroList[index] = status;
+    const newPomodoroList = this.#pomodoroList.map((s, i) => (i === index ? status : s));
+    return new Task(this.type, this.#title, this.#pomodoroCount, newPomodoroList);
   }
 
-  updatePomodoroCount(newCount: PomodoroCount) {
-    if (newCount === this.#pomodoroCount) return;
+  withPomodoroCount(newCount: PomodoroCount): Task {
+    if (newCount === this.#pomodoroCount) {
+      return this;
+    }
 
-    this.#pomodoroList = Array.from(
+    const newPomodoroList = Array.from(
       { length: newCount },
       (_, i) => this.#pomodoroList[i] ?? 'Not started',
     );
+    return new Task(this.type, this.#title, newCount, newPomodoroList);
   }
 }

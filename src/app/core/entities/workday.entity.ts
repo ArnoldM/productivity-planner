@@ -3,7 +3,7 @@ import { Task } from '@core/entities/task.entity';
 export class Workday {
   readonly date: string;
   readonly #MAX_TASKS_LIMIT = 6;
-  #taskList: Task[];
+  readonly #taskList: Task[];
 
   private constructor(date: string | Date, taskList: Task[]) {
     const isoDate = typeof date === 'string' ? new Date(date) : date;
@@ -24,38 +24,45 @@ export class Workday {
     return new Workday(new Date(), [Task.createEmptyTask()]);
   }
 
-  get taskList(): Task[] {
+  get taskList(): readonly Task[] {
     return this.#taskList;
   }
 
-  addEmptyTask() {
+  addEmptyTask(): Workday {
     const task = Task.createEmptyTask();
-    this.addTask(task);
+    return this.addTask(task);
   }
 
-  addTask(task: Task) {
+  addTask(task: Task): Workday {
     if (this.#taskList.length >= this.#MAX_TASKS_LIMIT) {
       throw new Error(`Cannot add more than ${this.#MAX_TASKS_LIMIT} tasks to a workday.`);
     }
-    this.#taskList = [...this.#taskList, task];
+    const newTaskList = [...this.#taskList, task];
+    return new Workday(this.date, newTaskList);
   }
 
-  removeTask(index: number) {
+  removeTask(index: number): Workday {
     if (this.#taskList.length === 1) {
       throw new Error('A workday must have at least one task.');
     }
 
-    if (index < 0 || index > this.#taskList.length) {
-      throw new Error('Invalid task index.');
-    }
-
-    this.#taskList = this.#taskList.filter((_, i) => i !== index);
-  }
-
-  replaceTask(index: number, newTask: Task) {
     if (index < 0 || index >= this.#taskList.length) {
       throw new Error('Invalid task index.');
     }
-    this.#taskList = this.#taskList.map((task, i) => (i === index ? newTask : task));
+
+    const newTaskList = this.#taskList.filter((_, i) => i !== index);
+    return new Workday(this.date, newTaskList);
+  }
+
+  replaceTask(index: number, newTask: Task): Workday {
+    if (index < 0 || index >= this.#taskList.length) {
+      throw new Error('Invalid task index.');
+    }
+    const newTaskList = this.#taskList.map((task, i) => (i === index ? newTask : task));
+    return new Workday(this.date, newTaskList);
+  }
+
+  isTaskListFull() {
+    return this.#taskList.length >= this.#MAX_TASKS_LIMIT;
   }
 }

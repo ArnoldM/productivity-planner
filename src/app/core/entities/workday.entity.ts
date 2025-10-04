@@ -2,6 +2,7 @@ import { Task } from '@core/entities/task.entity';
 
 export class Workday {
   readonly date: string;
+  readonly #MAX_TASKS_LIMIT = 6;
   #taskList: Task[];
 
   private constructor(date: string | Date, taskList: Task[]) {
@@ -11,9 +12,9 @@ export class Workday {
       throw new Error('Invalid date format.');
     }
 
-    // if (taskList.length < 1 || taskList.length > 6) {
-    //   throw new Error('Task list must contain between 1 and 6 tasks.');
-    // }
+    if (taskList.length < 1 || taskList.length > this.#MAX_TASKS_LIMIT) {
+      throw new Error(`Task list must contain between 1 and ${this.#MAX_TASKS_LIMIT} tasks.`);
+    }
 
     this.date = isoDate.toISOString().split('T')[0];
     this.#taskList = [...taskList];
@@ -33,10 +34,10 @@ export class Workday {
   }
 
   addTask(task: Task) {
-    if (this.#taskList.length >= 6) {
-      throw new Error('Cannot add more than 6 tasks to a workday.');
+    if (this.#taskList.length >= this.#MAX_TASKS_LIMIT) {
+      throw new Error(`Cannot add more than ${this.#MAX_TASKS_LIMIT} tasks to a workday.`);
     }
-    this.#taskList.push(task);
+    this.#taskList = [...this.#taskList, task];
   }
 
   removeTask(index: number) {
@@ -48,13 +49,13 @@ export class Workday {
       throw new Error('Invalid task index.');
     }
 
-    this.#taskList.splice(index, 1);
+    this.#taskList = this.#taskList.filter((_, i) => i !== index);
   }
 
   replaceTask(index: number, newTask: Task) {
-    if (index < 0 || index > this.#taskList.length) {
+    if (index < 0 || index >= this.#taskList.length) {
       throw new Error('Invalid task index.');
     }
-    this.#taskList[index] = newTask;
+    this.#taskList = this.#taskList.map((task, i) => (i === index ? newTask : task));
   }
 }

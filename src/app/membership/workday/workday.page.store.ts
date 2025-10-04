@@ -1,56 +1,24 @@
-import { signalStore, withComputed, withState } from '@ngrx/signals';
-import { computed } from '@angular/core';
-
-interface Pomodoro {
-  status: 'Not started' | 'In progress' | 'Done';
-}
-
-type PomodoroList =
-  | [Pomodoro]
-  | [Pomodoro, Pomodoro]
-  | [Pomodoro, Pomodoro, Pomodoro]
-  | [Pomodoro, Pomodoro, Pomodoro, Pomodoro]
-  | [Pomodoro, Pomodoro, Pomodoro, Pomodoro, Pomodoro];
-
-interface Task {
-  type: 'Hit the target' | 'Get things done';
-  title: string;
-  pomodoroCount: 1 | 2 | 3 | 4 | 5;
-  pomodoroList: PomodoroList;
-}
-
-type TaskList =
-  | [Task]
-  | [Task, Task]
-  | [Task, Task, Task]
-  | [Task, Task, Task, Task]
-  | [Task, Task, Task, Task, Task]
-  | [Task, Task, Task, Task, Task, Task];
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { Workday } from '@core/entities/workday.entity';
 
 interface WorkdayState {
-  date: string;
-  taskList: TaskList;
+  workday: Workday;
 }
 
 const initialState: WorkdayState = {
-  date: '',
-  taskList: [
-    {
-      type: 'Hit the target',
-      title: 'Nouvelle tâche',
-      pomodoroList: [{ status: 'Not started' }],
-      pomodoroCount: 1,
-    },
-  ],
+  workday: Workday.createEmptyWorkday(),
 };
 
 export const WorkdayPageStore = signalStore(
   withState<WorkdayState>(initialState),
-  withComputed((store) => {
-    const mostImportantTask = computed(() => store.taskList()[0]);
+  withMethods((store) => ({
+    onAddTask() {
+      const workday = store.workday();
 
-    return { mostImportantTask };
-  }),
+      workday.addEmptyTask();
+      patchState(store, () => ({ workday }));
+    },
+  })),
 );
 
 export type WorkdayPageStoreType = InstanceType<typeof WorkdayPageStore>;

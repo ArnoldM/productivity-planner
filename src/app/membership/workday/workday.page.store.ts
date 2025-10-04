@@ -1,5 +1,7 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { Workday } from '@core/entities/workday.entity';
+import { computed, inject } from '@angular/core';
+import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
 
 interface WorkdayState {
   workday: Workday;
@@ -11,11 +13,18 @@ const initialState: WorkdayState = {
 
 export const WorkdayPageStore = signalStore(
   withState<WorkdayState>(initialState),
-  withMethods((store) => ({
+  withComputed((state) => {
+    const taskCount = computed(() => {
+      return state.workday().taskList.length;
+    });
+    const shouldDisplayAddButton = computed(() => {
+      return !state.workday().isTaskListFull();
+    });
+    return { taskCount, shouldDisplayAddButton };
+  }),
+  withMethods((store, addTaskUseCase = inject(AddTaskUseCase)) => ({
     onAddTask() {
-      const workday = store.workday();
-
-      workday.addEmptyTask();
+      const workday = addTaskUseCase.execute(store.workday());
       patchState(store, () => ({ workday }));
     },
   })),

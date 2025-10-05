@@ -17,6 +17,10 @@ export class Task {
     pomodoroCount: PomodoroCount,
     pomodoroList?: PomodoroStatus[],
   ) {
+    if (!TASK_TYPES.includes(type)) {
+      throw new Error('Invalid task type');
+    }
+
     if (!title.trim()) {
       throw new Error('Task title cannot be empty');
     }
@@ -60,16 +64,10 @@ export class Task {
   }
 
   withType(newType: TaskType): Task {
-    if (!TASK_TYPES.includes(newType)) {
-      throw new Error('Invalid task type');
-    }
     return new Task(newType, this.#title, this.#pomodoroCount, [...this.#pomodoroList]);
   }
 
   withTitle(newTitle: string): Task {
-    if (!newTitle.trim()) {
-      throw new Error('Task title cannot be empty');
-    }
     return new Task(this.type, newTitle, this.#pomodoroCount, [...this.#pomodoroList]);
   }
 

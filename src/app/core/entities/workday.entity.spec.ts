@@ -224,6 +224,53 @@ describe('Workday', () => {
     });
   });
 
+  describe('withDate', () => {
+    it('should return a new Workday instance', () => {
+      const workday = Workday.createEmptyWorkday();
+
+      const result = workday.withDate('2025-12-25');
+
+      expect(result).not.toBe(workday);
+      expect(result).toBeInstanceOf(Workday);
+    });
+
+    it('should update the date', () => {
+      const workday = Workday.createEmptyWorkday();
+
+      const result = workday.withDate('2025-12-25');
+
+      expect(result.date).toBe('2025-12-25');
+    });
+
+    it('should preserve the task list', () => {
+      let workday = Workday.createEmptyWorkday();
+      workday = workday.addTask(Task.createEmptyTask().withTitle('Task 1'));
+      workday = workday.addTask(Task.createEmptyTask().withTitle('Task 2'));
+
+      const result = workday.withDate('2025-12-25');
+
+      expect(result.taskList.length).toBe(3);
+      expect(result.taskList[0].title).toBe('Nouvelle tâche');
+      expect(result.taskList[1].title).toBe('Task 1');
+      expect(result.taskList[2].title).toBe('Task 2');
+    });
+
+    it('should not mutate the original workday', () => {
+      const workday = Workday.createEmptyWorkday();
+      const originalDate = workday.date;
+
+      workday.withDate('2025-12-25');
+
+      expect(workday.date).toBe(originalDate);
+    });
+
+    it('should throw error if date is invalid', () => {
+      const workday = Workday.createEmptyWorkday();
+
+      expect(() => workday.withDate('invalid-date')).toThrow('Invalid date format.');
+    });
+  });
+
   describe('isTaskListFull', () => {
     it('should return false when task list is not full', () => {
       const workday = Workday.createEmptyWorkday();

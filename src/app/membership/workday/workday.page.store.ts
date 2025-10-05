@@ -37,6 +37,10 @@ export const WorkdayPageStore = signalStore(
         const workday = updateTaskUseCase.execute(store.workday(), taskIndex, updates);
         patchState(store, () => ({ workday }));
       },
+      updateWorkdayDate(date: string) {
+        const workday = store.workday().withDate(date);
+        patchState(store, () => ({ workday }));
+      },
     }),
   ),
 );

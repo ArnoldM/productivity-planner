@@ -32,6 +32,10 @@ export class Workday {
     return this.#taskList;
   }
 
+  withDate(date: string) {
+    return new Workday(date, this.#taskList);
+  }
+
   addEmptyTask(): Workday {
     const task = Task.createEmptyTask();
     return this.addTask(task);

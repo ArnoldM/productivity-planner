@@ -4,7 +4,13 @@
     <div></div>
     <div class="form-group text-center">
       <label for="workDay" class="form-label fw-bold">Working Day</label>
-      <input type="date" class="form-control" id="workDay" [(ngModel)]="selectedDate" />
+      <input
+        type="date"
+        class="form-control"
+        id="workDay"
+        [ngModel]="selectedDate"
+        (ngModelChange)="localStore.updateWorkdayDate($event)"
+      />
     </div>
     <button class="btn btn-success align-self-end">Start the work day</button>
   </div>

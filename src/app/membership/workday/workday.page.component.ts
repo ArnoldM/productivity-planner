@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { POMODORO_COUNTS, TaskType } from '@core/entities/task.entity';
 import { WorkdayPageStore, WorkdayPageStoreType } from '@membership/workday/workday.page.store';
 
 @Component({
@@ -15,7 +16,7 @@ import { WorkdayPageStore, WorkdayPageStoreType } from '@membership/workday/work
 })
 export default class WorkdayPageComponent {
   readonly localStore: WorkdayPageStoreType = inject(WorkdayPageStore);
-
-  selectedOption = '⛳️';
+  readonly pomodoroOptions = POMODORO_COUNTS;
+  selectedOption: TaskType = 'Hit the target';
   selectedDate = new Date().toISOString().split('T')[0];
 }

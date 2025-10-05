@@ -4,6 +4,7 @@ import WorkdayPageComponent from './workday.page.component';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
 import { By } from '@angular/platform-browser';
+import { UpdateTaskUseCase } from './domain/update-task.use-case';
 
 describe('WorkdayPageComponent', () => {
   let component: WorkdayPageComponent;
@@ -12,7 +13,7 @@ describe('WorkdayPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WorkdayPageComponent],
-      providers: [provideZonelessChangeDetection(), AddTaskUseCase],
+      providers: [provideZonelessChangeDetection(), AddTaskUseCase, UpdateTaskUseCase],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WorkdayPageComponent);

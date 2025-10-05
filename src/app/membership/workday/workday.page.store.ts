@@ -2,6 +2,7 @@ import { patchState, signalStore, withComputed, withMethods, withState } from '@
 import { Workday } from '@core/entities/workday.entity';
 import { computed, inject } from '@angular/core';
 import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
+import { TaskUpdates, UpdateTaskUseCase } from './domain/update-task.use-case';
 
 interface WorkdayState {
   workday: Workday;
@@ -22,12 +23,22 @@ export const WorkdayPageStore = signalStore(
     });
     return { taskCount, shouldDisplayAddButton };
   }),
-  withMethods((store, addTaskUseCase = inject(AddTaskUseCase)) => ({
-    onAddTask() {
-      const workday = addTaskUseCase.execute(store.workday());
-      patchState(store, () => ({ workday }));
-    },
-  })),
+  withMethods(
+    (
+      store,
+      addTaskUseCase = inject(AddTaskUseCase),
+      updateTaskUseCase = inject(UpdateTaskUseCase),
+    ) => ({
+      onAddTask() {
+        const workday = addTaskUseCase.execute(store.workday());
+        patchState(store, () => ({ workday }));
+      },
+      updateTask(taskIndex: number, updates: TaskUpdates) {
+        const workday = updateTaskUseCase.execute(store.workday(), taskIndex, updates);
+        patchState(store, () => ({ workday }));
+      },
+    }),
+  ),
 );
 
 export type WorkdayPageStoreType = InstanceType<typeof WorkdayPageStore>;

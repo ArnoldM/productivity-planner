@@ -1,4 +1,4 @@
-import { Task } from './task.entity';
+import { Task, TaskType } from './task.entity';
 
 describe('Task', () => {
   describe('createEmptyTask', () => {
@@ -81,6 +81,30 @@ describe('Task', () => {
       const task = Task.createEmptyTask();
 
       expect(task.pomodoroList).toEqual(['Not started']);
+    });
+  });
+
+  describe('withType', () => {
+    it('should return a new Task with updated type', () => {
+      const task = Task.createEmptyTask();
+
+      const result = task.withType('Get things done');
+
+      expect(result).not.toBe(task);
+      expect(result.type).toBe('Get things done');
+    });
+    it('should not mutate the original task', () => {
+      const task = Task.createEmptyTask();
+      const originalType = task.type;
+
+      task.withType('Get things done');
+
+      expect(task.type).toBe(originalType);
+    });
+    it('should throw error if new type is not a TaskType', () => {
+      const task = Task.createEmptyTask();
+
+      expect(() => task.withType('Hey' as TaskType)).toThrow('Invalid task type');
     });
   });
 

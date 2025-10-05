@@ -28,7 +28,11 @@
           <option [ngValue]="'Hit the target'">⛳️</option>
           <option [ngValue]="'Get things done'">🎯</option>
         </select>
-        <input class="fs-5" [value]="task.title" />
+        <input
+          class="fs-5"
+          [ngModel]="task.title"
+          (ngModelChange)="localStore.updateTask($index, { title: $event })"
+        />
       </div>
       <div class="d-flex align-items-center gap-2">
         <select

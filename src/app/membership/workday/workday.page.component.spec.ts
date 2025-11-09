@@ -31,8 +31,8 @@ describe('WorkdayPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Task display', () => {
-    it('should display tasks from the store', () => {
+  describe('when user views the page', () => {
+    it('should display all tasks from the store', () => {
       const taskCards = fixture.debugElement.queryAll(By.css('.card'));
 
       expect(taskCards.length).toBe(component.localStore.taskCount());
@@ -60,9 +60,7 @@ describe('WorkdayPageComponent', () => {
 
       expect(deleteButtons.length).toBe(tasks.length);
     });
-  });
 
-  describe('Add task button display', () => {
     it('should display "Ajouter une tâche" button when task list is not full', () => {
       const addButton = fixture.debugElement.query(By.css('button.btn-link'));
 
@@ -84,8 +82,8 @@ describe('WorkdayPageComponent', () => {
     });
   });
 
-  describe('Add task interaction', () => {
-    it('should call onAddTask when clicking "Ajouter une tâche" button', () => {
+  describe('when user clicks "Ajouter une tâche" button', () => {
+    it('should call onAddTask method', () => {
       const spy = jest.spyOn(component.localStore, 'onAddTask');
       const addButton = fixture.debugElement.query(By.css('button.btn-link'));
 
@@ -117,8 +115,8 @@ describe('WorkdayPageComponent', () => {
     });
   });
 
-  describe('Task removal', () => {
-    it('should call removeTask when clicking delete button', () => {
+  describe('when user clicks delete button on a task', () => {
+    it('should call removeTask method with correct index', () => {
       const spy = jest.spyOn(component.localStore, 'removeTask');
 
       // Add a second task so we can delete one
@@ -133,50 +131,41 @@ describe('WorkdayPageComponent', () => {
       expect(spy).toHaveBeenCalledWith(0);
     });
 
-    it('should decrease task count after removing a task', () => {
+    it('should remove the task from the list', () => {
       // Add tasks to have multiple tasks
       component.localStore.onAddTask();
       component.localStore.onAddTask();
       fixture.detectChanges();
 
       const initialCount = component.localStore.taskCount();
-
-      component.localStore.removeTask(0);
-      fixture.detectChanges();
-
-      expect(component.localStore.taskCount()).toBe(initialCount - 1);
-    });
-
-    it('should remove task from DOM after deletion', () => {
-      // Add tasks to have multiple tasks
-      component.localStore.onAddTask();
-      component.localStore.onAddTask();
-      fixture.detectChanges();
-
       const initialTaskCards = fixture.debugElement.queryAll(By.css('.card'));
-      const initialCount = initialTaskCards.length;
 
-      component.localStore.removeTask(0);
+      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
+      const firstDeleteButton = deleteButtons[0].nativeElement.closest('button');
+
+      firstDeleteButton.click();
       fixture.detectChanges();
 
       const updatedTaskCards = fixture.debugElement.queryAll(By.css('.card'));
 
-      expect(updatedTaskCards.length).toBe(initialCount - 1);
+      expect(component.localStore.taskCount()).toBe(initialCount - 1);
+      expect(updatedTaskCards.length).toBe(initialTaskCards.length - 1);
     });
 
-    it('should shift remaining tasks after deletion', () => {
+    it('should shift remaining tasks up to fill the gap', () => {
       // Add a task and update titles
       component.localStore.onAddTask();
       component.localStore.updateTask(0, { title: 'First Task' });
       component.localStore.updateTask(1, { title: 'Second Task' });
 
       const tasksBeforeRemoval = component.localStore.workday().taskList;
-
-      // Store the second task title
       const secondTaskTitle = tasksBeforeRemoval[1].title;
 
       // Remove first task
-      component.localStore.removeTask(0);
+      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
+      const firstDeleteButton = deleteButtons[0].nativeElement.closest('button');
+
+      firstDeleteButton.click();
 
       const tasksAfterRemoval = component.localStore.workday().taskList;
 

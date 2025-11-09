@@ -231,4 +231,54 @@ describe('WorkdayPageStore', () => {
       expect(originalWorkday.taskList.length).toBe(1); // Original unchanged
     });
   });
+
+  describe('method: removeTask', () => {
+    it('should call RemoveTaskUseCase.execute with current workday and index', () => {
+      // Add a task first so we have 2 tasks
+      const workdayWith2Tasks = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWith2Tasks);
+      store.onAddTask();
+
+      const currentWorkday = store.workday();
+      const newWorkday = currentWorkday.removeTask(0);
+      removeTaskUseCase.execute.mockReturnValue(newWorkday);
+
+      store.removeTask(0);
+
+      expect(removeTaskUseCase.execute).toHaveBeenCalledWith(currentWorkday, 0);
+    });
+
+    it('should update the workday state with the result from use case', () => {
+      // Add a task first so we have 2 tasks
+      const workdayWith2Tasks = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWith2Tasks);
+      store.onAddTask();
+
+      const currentWorkday = store.workday();
+      const newWorkday = currentWorkday.removeTask(0);
+      removeTaskUseCase.execute.mockReturnValue(newWorkday);
+
+      const initialTaskCount = store.taskCount();
+      store.removeTask(0);
+
+      expect(store.workday()).toBe(newWorkday);
+      expect(store.taskCount()).toBe(initialTaskCount - 1);
+    });
+
+    it('should maintain immutability (new workday instance)', () => {
+      // Add a task first so we have 2 tasks
+      const workdayWith2Tasks = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWith2Tasks);
+      store.onAddTask();
+
+      const originalWorkday = store.workday();
+      const newWorkday = originalWorkday.removeTask(0);
+      removeTaskUseCase.execute.mockReturnValue(newWorkday);
+
+      store.removeTask(0);
+
+      expect(store.workday()).not.toBe(originalWorkday);
+      expect(originalWorkday.taskList.length).toBe(2); // Original unchanged
+    });
+  });
 });

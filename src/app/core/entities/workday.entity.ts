@@ -58,7 +58,7 @@ export class Workday {
       throw new Error('Invalid task index.');
     }
 
-    const newTaskList = this.#taskList.filter((_, i) => i !== index);
+    const newTaskList = this.#taskList.toSpliced(index, 1);
     return new Workday(this.date, newTaskList);
   }
 

@@ -102,6 +102,29 @@ The project uses TypeScript path mapping:
 - **Storybook** for component documentation and testing
 - Coverage reports generated in `coverage/` directory
 
+#### Component Testing Best Practices
+
+**IMPORTANT**: When writing component tests, you MUST follow these rules:
+
+1. **Use `data-testid` attributes**: ALWAYS use `data-testid` attributes to reference DOM elements in tests
+   - Add `data-testid` attributes to all interactive elements (buttons, inputs, links, etc.)
+   - Use descriptive, kebab-case names (e.g., `data-testid="add-task-button"`)
+   - Never use CSS classes or element selectors in component tests
+
+2. **BDD-style test descriptions**: Write test `describe()` blocks from the user's perspective
+   - Use "when user..." format (e.g., `describe('when user clicks delete button')`)
+   - Focus on user behavior, not implementation details
+
+**Example:**
+```typescript
+// Template
+<button data-testid="add-task-button" (click)="onAddTask()">Add Task</button>
+
+// Test
+const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
+addButton.nativeElement.click();
+```
+
 ### Firebase Integration
 - Firestore for data storage
 - Firebase Hosting with SPA routing configuration
@@ -115,6 +138,16 @@ According to the README, the team follows this process:
 3. One reviewer required
 4. CI steps are mandatory
 5. Merge when approved
+
+### Code Modification Rules
+
+**IMPORTANT**: After making ANY code modifications, you MUST:
+1. **Run all tests**: Execute `npm run test` to ensure all tests pass
+2. **Fix any failing tests**: If tests fail due to your changes, fix them immediately
+3. **Update test files**: When adding new functionality (use cases, services, etc.), update the corresponding test files to include necessary providers and dependencies
+4. **Verify build**: Run `npm run build:development` to ensure the code compiles without errors
+
+**Never consider a task complete until all tests pass successfully.**
 
 ### Git Commit Conventions
 When creating commits, follow these guidelines:

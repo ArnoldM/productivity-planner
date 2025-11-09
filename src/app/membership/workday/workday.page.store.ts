@@ -3,6 +3,7 @@ import { Workday } from '@core/entities/workday.entity';
 import { computed, inject } from '@angular/core';
 import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
 import { TaskUpdates, UpdateTaskUseCase } from './domain/update-task.use-case';
+import { RemoveTaskUseCase } from './domain/remove-task.use-case';
 
 interface WorkdayState {
   workday: Workday;
@@ -28,6 +29,7 @@ export const WorkdayPageStore = signalStore(
       store,
       addTaskUseCase = inject(AddTaskUseCase),
       updateTaskUseCase = inject(UpdateTaskUseCase),
+      removeTaskUseCase = inject(RemoveTaskUseCase),
     ) => ({
       onAddTask() {
         const workday = addTaskUseCase.execute(store.workday());
@@ -35,6 +37,10 @@ export const WorkdayPageStore = signalStore(
       },
       updateTask(taskIndex: number, updates: TaskUpdates) {
         const workday = updateTaskUseCase.execute(store.workday(), taskIndex, updates);
+        patchState(store, () => ({ workday }));
+      },
+      removeTask(taskIndex: number) {
+        const workday = removeTaskUseCase.execute(store.workday(), taskIndex);
         patchState(store, () => ({ workday }));
       },
       updateWorkdayDate(date: string) {

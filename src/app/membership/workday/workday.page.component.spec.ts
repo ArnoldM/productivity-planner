@@ -33,20 +33,20 @@ describe('WorkdayPageComponent', () => {
 
   describe('when user views the page', () => {
     it('should display all tasks from the store', () => {
-      const taskCards = fixture.debugElement.queryAll(By.css('.card'));
+      const taskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
 
       expect(taskCards.length).toBe(component.localStore.taskCount());
     });
 
     it('should display task title in input field', () => {
-      const firstTaskInput = fixture.debugElement.query(By.css('.card input'));
+      const firstTaskInput = fixture.debugElement.query(By.css('[data-testid="task-title-input"]'));
       const firstTask = component.localStore.workday().taskList[0];
 
       expect(firstTaskInput.nativeElement.value).toBe(firstTask.title);
     });
 
     it('should display all tasks with correct titles', () => {
-      const taskInputs = fixture.debugElement.queryAll(By.css('.card input'));
+      const taskInputs = fixture.debugElement.queryAll(By.css('[data-testid="task-title-input"]'));
       const tasks = component.localStore.workday().taskList;
 
       taskInputs.forEach((input, index) => {
@@ -55,14 +55,16 @@ describe('WorkdayPageComponent', () => {
     });
 
     it('should display delete button for each task', () => {
-      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
+      const deleteButtons = fixture.debugElement.queryAll(
+        By.css('[data-testid="task-delete-button"]'),
+      );
       const tasks = component.localStore.workday().taskList;
 
       expect(deleteButtons.length).toBe(tasks.length);
     });
 
     it('should display "Ajouter une tâche" button when task list is not full', () => {
-      const addButton = fixture.debugElement.query(By.css('button.btn-link'));
+      const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
 
       expect(addButton).toBeTruthy();
       expect(addButton.nativeElement.textContent.trim()).toBe('Ajouter une tâche');
@@ -75,7 +77,7 @@ describe('WorkdayPageComponent', () => {
       }
       fixture.detectChanges();
 
-      const addButton = fixture.debugElement.query(By.css('button.btn-link'));
+      const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
 
       expect(addButton).toBeNull();
       expect(component.localStore.shouldDisplayAddButton()).toBe(false);
@@ -85,7 +87,7 @@ describe('WorkdayPageComponent', () => {
   describe('when user clicks "Ajouter une tâche" button', () => {
     it('should call onAddTask method', () => {
       const spy = jest.spyOn(component.localStore, 'onAddTask');
-      const addButton = fixture.debugElement.query(By.css('button.btn-link'));
+      const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
 
       addButton.nativeElement.click();
 
@@ -94,7 +96,7 @@ describe('WorkdayPageComponent', () => {
 
     it('should increase task count after adding a task', () => {
       const initialCount = component.localStore.taskCount();
-      const addButton = fixture.debugElement.query(By.css('button.btn-link'));
+      const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
 
       addButton.nativeElement.click();
       fixture.detectChanges();
@@ -103,13 +105,13 @@ describe('WorkdayPageComponent', () => {
     });
 
     it('should display new task in the DOM after adding', () => {
-      const addButton = fixture.debugElement.query(By.css('button.btn-link'));
-      const initialTaskCards = fixture.debugElement.queryAll(By.css('.card'));
+      const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
+      const initialTaskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
 
       addButton.nativeElement.click();
       fixture.detectChanges();
 
-      const updatedTaskCards = fixture.debugElement.queryAll(By.css('.card'));
+      const updatedTaskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
 
       expect(updatedTaskCards.length).toBe(initialTaskCards.length + 1);
     });
@@ -123,8 +125,10 @@ describe('WorkdayPageComponent', () => {
       component.localStore.onAddTask();
       fixture.detectChanges();
 
-      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
-      const firstDeleteButton = deleteButtons[0].nativeElement.closest('button');
+      const deleteButtons = fixture.debugElement.queryAll(
+        By.css('[data-testid="task-delete-button"]'),
+      );
+      const firstDeleteButton = deleteButtons[0].nativeElement;
 
       firstDeleteButton.click();
 
@@ -138,15 +142,17 @@ describe('WorkdayPageComponent', () => {
       fixture.detectChanges();
 
       const initialCount = component.localStore.taskCount();
-      const initialTaskCards = fixture.debugElement.queryAll(By.css('.card'));
+      const initialTaskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
 
-      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
-      const firstDeleteButton = deleteButtons[0].nativeElement.closest('button');
+      const deleteButtons = fixture.debugElement.queryAll(
+        By.css('[data-testid="task-delete-button"]'),
+      );
+      const firstDeleteButton = deleteButtons[0].nativeElement;
 
       firstDeleteButton.click();
       fixture.detectChanges();
 
-      const updatedTaskCards = fixture.debugElement.queryAll(By.css('.card'));
+      const updatedTaskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
 
       expect(component.localStore.taskCount()).toBe(initialCount - 1);
       expect(updatedTaskCards.length).toBe(initialTaskCards.length - 1);
@@ -162,8 +168,10 @@ describe('WorkdayPageComponent', () => {
       const secondTaskTitle = tasksBeforeRemoval[1].title;
 
       // Remove first task
-      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
-      const firstDeleteButton = deleteButtons[0].nativeElement.closest('button');
+      const deleteButtons = fixture.debugElement.queryAll(
+        By.css('[data-testid="task-delete-button"]'),
+      );
+      const firstDeleteButton = deleteButtons[0].nativeElement;
 
       firstDeleteButton.click();
 

@@ -102,6 +102,29 @@ The project uses TypeScript path mapping:
 - **Storybook** for component documentation and testing
 - Coverage reports generated in `coverage/` directory
 
+#### Component Testing Best Practices
+
+**IMPORTANT**: When writing component tests, you MUST follow these rules:
+
+1. **Use `data-testid` attributes**: ALWAYS use `data-testid` attributes to reference DOM elements in tests
+   - Add `data-testid` attributes to all interactive elements (buttons, inputs, links, etc.)
+   - Use descriptive, kebab-case names (e.g., `data-testid="add-task-button"`)
+   - Never use CSS classes or element selectors in component tests
+
+2. **BDD-style test descriptions**: Write test `describe()` blocks from the user's perspective
+   - Use "when user..." format (e.g., `describe('when user clicks delete button')`)
+   - Focus on user behavior, not implementation details
+
+**Example:**
+```typescript
+// Template
+<button data-testid="add-task-button" (click)="onAddTask()">Add Task</button>
+
+// Test
+const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
+addButton.nativeElement.click();
+```
+
 ### Firebase Integration
 - Firestore for data storage
 - Firebase Hosting with SPA routing configuration

@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { POMODORO_COUNTS, TaskType } from '@core/entities/task.entity';
+import { WorkdayPageStore, WorkdayPageStoreType } from '@membership/workday/workday.page.store';
 
 @Component({
   selector: 'app-workday',
@@ -10,16 +12,11 @@ import { FormsModule } from '@angular/forms';
   host: {
     class: 'app-workday w-100',
   },
+  providers: [WorkdayPageStore],
 })
 export default class WorkdayPageComponent {
-  selectedDate = '2019-02-28';
-  selectedOption = '⛳️';
-  secondaryTasks = [{ name: 'Tâche n°2' }, { name: 'Tâche n°3' }];
-
-  remainingTasks = [{ name: 'Tâche n°4' }, { name: 'Tâche n°5' }, { name: 'Tâche n°6' }];
-
-  addTask() {
-    const newIndex = this.remainingTasks.length + 4;
-    this.remainingTasks.push({ name: `Tâche n°${newIndex}` });
-  }
+  readonly localStore: WorkdayPageStoreType = inject(WorkdayPageStore);
+  readonly pomodoroOptions = POMODORO_COUNTS;
+  selectedOption: TaskType = 'Hit the target';
+  selectedDate = new Date().toISOString().split('T')[0];
 }

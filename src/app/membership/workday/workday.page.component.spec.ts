@@ -5,6 +5,7 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
 import { By } from '@angular/platform-browser';
 import { UpdateTaskUseCase } from './domain/update-task.use-case';
+import { RemoveTaskUseCase } from './domain/remove-task.use-case';
 
 describe('WorkdayPageComponent', () => {
   let component: WorkdayPageComponent;
@@ -13,7 +14,12 @@ describe('WorkdayPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WorkdayPageComponent],
-      providers: [provideZonelessChangeDetection(), AddTaskUseCase, UpdateTaskUseCase],
+      providers: [
+        provideZonelessChangeDetection(),
+        AddTaskUseCase,
+        UpdateTaskUseCase,
+        RemoveTaskUseCase,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WorkdayPageComponent);
@@ -46,6 +52,13 @@ describe('WorkdayPageComponent', () => {
       taskInputs.forEach((input, index) => {
         expect(input.nativeElement.value).toBe(tasks[index].title);
       });
+    });
+
+    it('should display delete button for each task', () => {
+      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
+      const tasks = component.localStore.workday().taskList;
+
+      expect(deleteButtons.length).toBe(tasks.length);
     });
   });
 
@@ -101,6 +114,75 @@ describe('WorkdayPageComponent', () => {
       const updatedTaskCards = fixture.debugElement.queryAll(By.css('.card'));
 
       expect(updatedTaskCards.length).toBe(initialTaskCards.length + 1);
+    });
+  });
+
+  describe('Task removal', () => {
+    it('should call removeTask when clicking delete button', () => {
+      const spy = jest.spyOn(component.localStore, 'removeTask');
+
+      // Add a second task so we can delete one
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
+      const deleteButtons = fixture.debugElement.queryAll(By.css('.card button .bi-x-lg'));
+      const firstDeleteButton = deleteButtons[0].nativeElement.closest('button');
+
+      firstDeleteButton.click();
+
+      expect(spy).toHaveBeenCalledWith(0);
+    });
+
+    it('should decrease task count after removing a task', () => {
+      // Add tasks to have multiple tasks
+      component.localStore.onAddTask();
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
+      const initialCount = component.localStore.taskCount();
+
+      component.localStore.removeTask(0);
+      fixture.detectChanges();
+
+      expect(component.localStore.taskCount()).toBe(initialCount - 1);
+    });
+
+    it('should remove task from DOM after deletion', () => {
+      // Add tasks to have multiple tasks
+      component.localStore.onAddTask();
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
+      const initialTaskCards = fixture.debugElement.queryAll(By.css('.card'));
+      const initialCount = initialTaskCards.length;
+
+      component.localStore.removeTask(0);
+      fixture.detectChanges();
+
+      const updatedTaskCards = fixture.debugElement.queryAll(By.css('.card'));
+
+      expect(updatedTaskCards.length).toBe(initialCount - 1);
+    });
+
+    it('should shift remaining tasks after deletion', () => {
+      // Add a task and update titles
+      component.localStore.onAddTask();
+      component.localStore.updateTask(0, { title: 'First Task' });
+      component.localStore.updateTask(1, { title: 'Second Task' });
+
+      const tasksBeforeRemoval = component.localStore.workday().taskList;
+
+      // Store the second task title
+      const secondTaskTitle = tasksBeforeRemoval[1].title;
+
+      // Remove first task
+      component.localStore.removeTask(0);
+
+      const tasksAfterRemoval = component.localStore.workday().taskList;
+
+      // The second task should now be at index 0
+      expect(tasksAfterRemoval[0].title).toBe(secondTaskTitle);
+      expect(tasksAfterRemoval[0].title).toBe('Second Task');
     });
   });
 });

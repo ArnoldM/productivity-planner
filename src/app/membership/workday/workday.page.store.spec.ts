@@ -3,11 +3,13 @@ import { WorkdayPageStore } from './workday.page.store';
 import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
 import { Workday } from '@core/entities/workday.entity';
 import { UpdateTaskUseCase } from './domain/update-task.use-case';
+import { RemoveTaskUseCase } from './domain/remove-task.use-case';
 
 describe('WorkdayPageStore', () => {
   let store: InstanceType<typeof WorkdayPageStore>;
   let addTaskUseCase: jest.Mocked<AddTaskUseCase>;
   let updateTaskUseCase: jest.Mocked<UpdateTaskUseCase>;
+  let removeTaskUseCase: jest.Mocked<RemoveTaskUseCase>;
 
   beforeEach(() => {
     addTaskUseCase = {
@@ -17,6 +19,10 @@ describe('WorkdayPageStore', () => {
     updateTaskUseCase = {
       execute: jest.fn(),
     } as unknown as jest.Mocked<UpdateTaskUseCase>;
+
+    removeTaskUseCase = {
+      execute: jest.fn(),
+    } as unknown as jest.Mocked<RemoveTaskUseCase>;
 
     TestBed.configureTestingModule({
       providers: [
@@ -28,6 +34,10 @@ describe('WorkdayPageStore', () => {
         {
           provide: UpdateTaskUseCase,
           useValue: updateTaskUseCase,
+        },
+        {
+          provide: RemoveTaskUseCase,
+          useValue: removeTaskUseCase,
         },
       ],
     });

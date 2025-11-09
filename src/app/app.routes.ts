@@ -4,6 +4,7 @@ import { APP_ROUTES } from '@core/models/enums/routes.enum';
 import { ShellLayoutComponent } from '@membership/core/shell/shell.layout.component';
 import { AddTaskUseCase } from '@membership/workday/domain/add-task.use-case';
 import { UpdateTaskUseCase } from '@membership/workday/domain/update-task.use-case';
+import { RemoveTaskUseCase } from '@membership/workday/domain/remove-task.use-case';
 
 export const routes: Routes = [
   { path: APP_ROUTES.HOME, component: HomePageComponent, title: 'Productivity Planner' },
@@ -21,7 +22,7 @@ export const routes: Routes = [
     path: `${APP_ROUTES.APP}`,
     component: ShellLayoutComponent,
     loadChildren: () => import('./membership/membership.routes'),
-    providers: [AddTaskUseCase, UpdateTaskUseCase],
+    providers: [AddTaskUseCase, UpdateTaskUseCase, RemoveTaskUseCase],
     title: 'Productivity Planner',
   },
 ];

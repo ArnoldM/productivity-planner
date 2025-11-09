@@ -10,7 +10,9 @@ Follow these steps to create a proper commit:
 2. **Review changes**: Run `git diff --staged` to see the actual changes that will be committed
 3. **Check commit history**: Run `git log -5 --oneline` to understand the commit message style
 4. **Analyze staged changes**: Determine the appropriate commit type based ONLY on staged files
-5. **Create commit message**:
+5. **Run linting**: Execute `npm run lint` to ensure code quality standards are met. The commit should only proceed if linting passes without errors.
+6. **Run tests**: Execute `npm run test` to ensure all tests pass. The commit should only proceed if all tests pass successfully.
+7. **Create commit message**:
    - Keep it concise and focused on the change
    - Use Conventional Commits format with appropriate prefix:
      - `feat:` - New features
@@ -23,13 +25,16 @@ Follow these steps to create a proper commit:
      - `perf:` - Performance improvements
    - **NEVER include AI references** (Claude, AI-generated, etc.)
    - Example: `feat: add task creation to workday page`
-6. **Execute commit**: Create the commit with the message
+8. **Execute commit**: Create the commit with the message
 
 ## Important Rules
 
 - ✅ Only commit staged files
+- ✅ Linting must pass before committing
+- ✅ All tests must pass before committing
 - ✅ Message must be concise (1 line preferred)
 - ✅ No AI/Claude/automation references
 - ✅ Follow Conventional Commits format
 - ❌ Don't add extra metadata or footers
 - ❌ Don't commit unstaged files
+  

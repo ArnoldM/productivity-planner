@@ -116,6 +116,16 @@ According to the README, the team follows this process:
 4. CI steps are mandatory
 5. Merge when approved
 
+### Code Modification Rules
+
+**IMPORTANT**: After making ANY code modifications, you MUST:
+1. **Run all tests**: Execute `npm run test` to ensure all tests pass
+2. **Fix any failing tests**: If tests fail due to your changes, fix them immediately
+3. **Update test files**: When adding new functionality (use cases, services, etc.), update the corresponding test files to include necessary providers and dependencies
+4. **Verify build**: Run `npm run build:development` to ensure the code compiles without errors
+
+**Never consider a task complete until all tests pass successfully.**
+
 ### Git Commit Conventions
 When creating commits, follow these guidelines:
 - **Staged files only**: Only commit files that are currently staged (`git status` shows "Modifications qui seront validées")

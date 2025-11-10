@@ -289,6 +289,36 @@ describe('Workday', () => {
     });
   });
 
+  describe('hasNoPlannedTasks', () => {
+    it('should return true when all tasks are empty', () => {
+      const workday = Workday.createEmptyWorkday();
+
+      expect(workday.hasNoPlannedTasks()).toBe(true);
+    });
+
+    it('should return true when multiple tasks are all empty', () => {
+      const workday = Workday.createEmptyWorkday().addEmptyTask().addEmptyTask();
+
+      expect(workday.hasNoPlannedTasks()).toBe(true);
+    });
+
+    it('should return false when at least one task has a custom title', () => {
+      const workday = Workday.createEmptyWorkday();
+      const customTask = Task.create('Hit the target', 'Custom Task', 1);
+      const workdayWithCustomTask = workday.addTask(customTask);
+
+      expect(workdayWithCustomTask.hasNoPlannedTasks()).toBe(false);
+    });
+
+    it('should return false when first task is updated', () => {
+      const workday = Workday.createEmptyWorkday();
+      const updatedTask = workday.taskList[0].withTitle('Updated Task');
+      const workdayWithUpdatedTask = workday.replaceTask(0, updatedTask);
+
+      expect(workdayWithUpdatedTask.hasNoPlannedTasks()).toBe(false);
+    });
+  });
+
   describe('taskList getter', () => {
     it('should return readonly task list', () => {
       const workday = Workday.createEmptyWorkday();

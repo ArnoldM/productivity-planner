@@ -73,4 +73,8 @@ export class Workday {
   isTaskListFull() {
     return this.#taskList.length >= this.#MAX_TASKS_LIMIT;
   }
+
+  hasNoPlannedTasks(): boolean {
+    return this.#taskList.every((task) => task.isEmpty());
+  }
 }

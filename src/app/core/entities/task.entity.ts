@@ -90,4 +90,8 @@ export class Task {
     );
     return new Task(this.type, this.#title, newCount, newPomodoroList);
   }
+
+  isEmpty(): boolean {
+    return this.#title === 'Nouvelle tâche';
+  }
 }

@@ -103,6 +103,44 @@ describe('WorkdayPageStore', () => {
     });
   });
 
+  describe('computed: hasNoPlannedTasks', () => {
+    it('should initialize to true when workday has only empty tasks', () => {
+      expect(store.hasNoPlannedTasks()).toBe(true);
+    });
+
+    it('should return true when all tasks are empty', () => {
+      const workday = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workday);
+      store.onAddTask();
+
+      expect(store.hasNoPlannedTasks()).toBe(true);
+    });
+
+    it('should return false when at least one task has a custom title', () => {
+      const currentWorkday = store.workday();
+      const updatedTask = currentWorkday.taskList[0].withTitle('Custom Task');
+      const workdayWithCustomTask = currentWorkday.replaceTask(0, updatedTask);
+      updateTaskUseCase.execute.mockReturnValue(workdayWithCustomTask);
+
+      store.updateTask(0, { title: 'Custom Task' });
+
+      expect(store.hasNoPlannedTasks()).toBe(false);
+    });
+
+    it('should update when task title changes from empty to custom', () => {
+      expect(store.hasNoPlannedTasks()).toBe(true);
+
+      const currentWorkday = store.workday();
+      const updatedTask = currentWorkday.taskList[0].withTitle('New Task');
+      const workdayWithUpdatedTask = currentWorkday.replaceTask(0, updatedTask);
+      updateTaskUseCase.execute.mockReturnValue(workdayWithUpdatedTask);
+
+      store.updateTask(0, { title: 'New Task' });
+
+      expect(store.hasNoPlannedTasks()).toBe(false);
+    });
+  });
+
   describe('method: updateTask', () => {
     it('should call UpdateTaskUseCase.execute with current workday', () => {
       const currentWorkday = store.workday();

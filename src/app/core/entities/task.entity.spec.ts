@@ -229,6 +229,28 @@ describe('Task', () => {
     });
   });
 
+  describe('isEmpty', () => {
+    it('should return true for an empty task with default title', () => {
+      const task = Task.createEmptyTask();
+
+      expect(task.isEmpty()).toBe(true);
+    });
+
+    it('should return false for a task with a custom title', () => {
+      const task = Task.create('Hit the target', 'Custom Task', 1);
+
+      expect(task.isEmpty()).toBe(false);
+    });
+
+    it('should return false after updating the title', () => {
+      const task = Task.createEmptyTask();
+
+      const updatedTask = task.withTitle('Updated Task');
+
+      expect(updatedTask.isEmpty()).toBe(false);
+    });
+  });
+
   describe('edge cases', () => {
     it('should handle minimum pomodoro count (1)', () => {
       const task = Task.create('Hit the target', 'Test', 1);

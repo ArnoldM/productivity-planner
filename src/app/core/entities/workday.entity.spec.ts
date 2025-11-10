@@ -158,7 +158,6 @@ describe('Workday', () => {
       expect(workday.taskList.length).toBe(originalLength);
     });
 
-
     it('should throw error when index is negative', () => {
       const workday = Workday.createEmptyWorkday().addEmptyTask();
 

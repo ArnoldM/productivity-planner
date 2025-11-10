@@ -20,7 +20,7 @@ describe('UpdateTaskUseCase', () => {
   describe('execute', () => {
     describe('single property updates', () => {
       it('should update only the task type', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalTask = workday.taskList[0];
 
         const result = useCase.execute(workday, 0, { type: 'Get things done' });
@@ -31,7 +31,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should update only the task title', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalTask = workday.taskList[0];
 
         const result = useCase.execute(workday, 0, { title: 'Updated title' });
@@ -42,7 +42,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should update only the pomodoro count', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalTask = workday.taskList[0];
 
         const result = useCase.execute(workday, 0, { pomodoroCount: 3 });
@@ -68,7 +68,7 @@ describe('UpdateTaskUseCase', () => {
 
     describe('multiple properties updates', () => {
       it('should update multiple properties at once', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         const result = useCase.execute(workday, 0, {
           type: 'Get things done',
@@ -80,7 +80,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should update all properties together', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         const result = useCase.execute(workday, 0, {
           type: 'Get things done',
@@ -96,7 +96,7 @@ describe('UpdateTaskUseCase', () => {
 
     describe('immutability', () => {
       it('should return a new Workday instance', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         const result = useCase.execute(workday, 0, { type: 'Get things done' });
 
@@ -105,7 +105,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should not mutate the original workday', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalType = workday.taskList[0].type;
 
         useCase.execute(workday, 0, { type: 'Get things done' });
@@ -114,7 +114,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should not mutate the original task', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalTask = workday.taskList[0];
 
         const result = useCase.execute(workday, 0, { title: 'New title' });
@@ -126,7 +126,7 @@ describe('UpdateTaskUseCase', () => {
 
     describe('validation and errors', () => {
       it('should throw error if task index is negative', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         expect(() => useCase.execute(workday, -1, { title: 'Test' })).toThrow(
           'Invalid task index.',
@@ -134,7 +134,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should throw error if task index is out of bounds', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         expect(() => useCase.execute(workday, 10, { title: 'Test' })).toThrow(
           'Invalid task index.',
@@ -142,7 +142,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should throw error if title is empty', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         expect(() => useCase.execute(workday, 0, { title: '' })).toThrow(
           'Task title cannot be empty',
@@ -150,7 +150,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should throw error if type is invalid', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         expect(() => useCase.execute(workday, 0, { type: 'Invalid' as TaskType })).toThrow(
           'Invalid task type',
@@ -158,7 +158,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should throw error if pomodoro status index is invalid', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
 
         expect(() =>
           useCase.execute(workday, 0, {
@@ -170,7 +170,7 @@ describe('UpdateTaskUseCase', () => {
 
     describe('edge cases', () => {
       it('should handle empty updates object', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalTask = workday.taskList[0];
 
         const result = useCase.execute(workday, 0, {});
@@ -181,7 +181,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should update the first task (index 0)', () => {
-        let workday = Workday.createEmptyWorkday();
+        let workday = Workday.createEmptyWorkday().addEmptyTask();
         workday = workday.addTask(Task.create('Hit the target', 'Task 2', 1));
 
         const result = useCase.execute(workday, 0, { title: 'Updated first' });
@@ -191,7 +191,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should update the last task in a workday with multiple tasks', () => {
-        let workday = Workday.createEmptyWorkday();
+        let workday = Workday.createEmptyWorkday().addEmptyTask();
         workday = workday.addTask(Task.create('Hit the target', 'Task 2', 1));
         workday = workday.addTask(Task.create('Hit the target', 'Task 3', 1));
 
@@ -205,7 +205,7 @@ describe('UpdateTaskUseCase', () => {
 
     describe('integration', () => {
       it('should preserve other tasks when updating a single task', () => {
-        let workday = Workday.createEmptyWorkday();
+        let workday = Workday.createEmptyWorkday().addEmptyTask();
         workday = workday.addTask(Task.create('Get things done', 'Task 2', 2));
         workday = workday.addTask(Task.create('Hit the target', 'Task 3', 3));
 
@@ -219,7 +219,7 @@ describe('UpdateTaskUseCase', () => {
       });
 
       it('should maintain workday date when updating a task', () => {
-        const workday = Workday.createEmptyWorkday();
+        const workday = Workday.createEmptyWorkday().addEmptyTask();
         const originalDate = workday.date;
 
         const result = useCase.execute(workday, 0, { title: 'Updated task' });

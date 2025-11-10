@@ -54,19 +54,19 @@ describe('WorkdayPageStore', () => {
   });
 
   describe('initial state', () => {
-    it('should have a workday with one empty task', () => {
+    it('should have a workday with no tasks', () => {
       expect(store.workday()).toBeInstanceOf(Workday);
-      expect(store.workday().taskList.length).toBe(1);
+      expect(store.workday().taskList.length).toBe(0);
     });
   });
 
   describe('computed: taskCount', () => {
-    it('should initialize to 1', () => {
-      expect(store.taskCount()).toBe(1);
+    it('should initialize to 0', () => {
+      expect(store.taskCount()).toBe(0);
     });
 
     it('should return the correct number of tasks', () => {
-      expect(store.taskCount()).toBe(1);
+      expect(store.taskCount()).toBe(0);
     });
 
     it('should update when workday changes', () => {
@@ -75,7 +75,7 @@ describe('WorkdayPageStore', () => {
 
       store.onAddTask();
 
-      expect(store.taskCount()).toBe(2);
+      expect(store.taskCount()).toBe(1);
     });
   });
 
@@ -92,7 +92,7 @@ describe('WorkdayPageStore', () => {
       let workday = store.workday();
 
       // Add tasks until full (max 6)
-      for (let i = 1; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         workday = workday.addEmptyTask();
         addTaskUseCase.execute.mockReturnValue(workday);
         store.onAddTask();
@@ -104,45 +104,39 @@ describe('WorkdayPageStore', () => {
   });
 
   describe('computed: hasNoPlannedTasks', () => {
-    it('should initialize to true when workday has only empty tasks', () => {
+    it('should initialize to true when workday has no tasks', () => {
       expect(store.hasNoPlannedTasks()).toBe(true);
     });
 
-    it('should return true when all tasks are empty', () => {
+    it('should return false after adding a task', () => {
       const workday = store.workday().addEmptyTask();
       addTaskUseCase.execute.mockReturnValue(workday);
       store.onAddTask();
 
-      expect(store.hasNoPlannedTasks()).toBe(true);
-    });
-
-    it('should return false when at least one task has a custom title', () => {
-      const currentWorkday = store.workday();
-      const updatedTask = currentWorkday.taskList[0].withTitle('Custom Task');
-      const workdayWithCustomTask = currentWorkday.replaceTask(0, updatedTask);
-      updateTaskUseCase.execute.mockReturnValue(workdayWithCustomTask);
-
-      store.updateTask(0, { title: 'Custom Task' });
-
       expect(store.hasNoPlannedTasks()).toBe(false);
     });
 
-    it('should update when task title changes from empty to custom', () => {
+    it('should return true after removing all tasks', () => {
+      // Add a task first
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
+      // Remove the task
+      const emptyWorkday = Workday.createEmptyWorkday();
+      removeTaskUseCase.execute.mockReturnValue(emptyWorkday);
+      store.removeTask(0);
+
       expect(store.hasNoPlannedTasks()).toBe(true);
-
-      const currentWorkday = store.workday();
-      const updatedTask = currentWorkday.taskList[0].withTitle('New Task');
-      const workdayWithUpdatedTask = currentWorkday.replaceTask(0, updatedTask);
-      updateTaskUseCase.execute.mockReturnValue(workdayWithUpdatedTask);
-
-      store.updateTask(0, { title: 'New Task' });
-
-      expect(store.hasNoPlannedTasks()).toBe(false);
     });
   });
 
   describe('method: updateTask', () => {
     it('should call UpdateTaskUseCase.execute with current workday', () => {
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
       const currentWorkday = store.workday();
       const newWorkday = currentWorkday.addEmptyTask();
       updateTaskUseCase.execute.mockReturnValue(newWorkday);
@@ -155,6 +149,10 @@ describe('WorkdayPageStore', () => {
     });
 
     it('should update the workday state with the result from use case', () => {
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
       const currentWorkday = store.workday();
       const newWorkday = currentWorkday.addEmptyTask();
       updateTaskUseCase.execute.mockReturnValue(newWorkday);
@@ -167,6 +165,10 @@ describe('WorkdayPageStore', () => {
     });
 
     it('should maintain immutability (new workday instance)', () => {
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
       const originalWorkday = store.workday();
       const newWorkday = originalWorkday.addEmptyTask();
       updateTaskUseCase.execute.mockReturnValue(newWorkday);
@@ -178,6 +180,10 @@ describe('WorkdayPageStore', () => {
     });
 
     it('should handle updating task type', () => {
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
       const currentWorkday = store.workday();
       const updatedWorkday = Workday.create(currentWorkday.date, [
         currentWorkday.taskList[0].withType('Get things done'),
@@ -192,6 +198,10 @@ describe('WorkdayPageStore', () => {
     });
 
     it('should handle updating multiple properties', () => {
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
       const currentWorkday = store.workday();
       updateTaskUseCase.execute.mockReturnValue(currentWorkday);
 
@@ -204,6 +214,10 @@ describe('WorkdayPageStore', () => {
     });
 
     it('should handle empty updates object', () => {
+      const workdayWithTask = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWithTask);
+      store.onAddTask();
+
       const currentWorkday = store.workday();
       updateTaskUseCase.execute.mockReturnValue(currentWorkday);
 
@@ -214,9 +228,10 @@ describe('WorkdayPageStore', () => {
 
     it('should update task at specific index', () => {
       let workday = store.workday();
-      workday = workday.addEmptyTask().addEmptyTask();
+      workday = workday.addEmptyTask().addEmptyTask().addEmptyTask();
 
       addTaskUseCase.execute.mockReturnValue(workday);
+      store.onAddTask();
       store.onAddTask();
       store.onAddTask();
 
@@ -266,7 +281,7 @@ describe('WorkdayPageStore', () => {
       store.onAddTask();
 
       expect(store.workday()).not.toBe(originalWorkday);
-      expect(originalWorkday.taskList.length).toBe(1); // Original unchanged
+      expect(originalWorkday.taskList.length).toBe(0); // Original unchanged
     });
   });
 
@@ -304,9 +319,9 @@ describe('WorkdayPageStore', () => {
     });
 
     it('should maintain immutability (new workday instance)', () => {
-      // Add a task first so we have 2 tasks
-      const workdayWith2Tasks = store.workday().addEmptyTask();
-      addTaskUseCase.execute.mockReturnValue(workdayWith2Tasks);
+      // Add a task first so we have 1 task
+      const workdayWith1Task = store.workday().addEmptyTask();
+      addTaskUseCase.execute.mockReturnValue(workdayWith1Task);
       store.onAddTask();
 
       const originalWorkday = store.workday();
@@ -316,7 +331,7 @@ describe('WorkdayPageStore', () => {
       store.removeTask(0);
 
       expect(store.workday()).not.toBe(originalWorkday);
-      expect(originalWorkday.taskList.length).toBe(2); // Original unchanged
+      expect(originalWorkday.taskList.length).toBe(1); // Original unchanged
     });
   });
 });

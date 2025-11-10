@@ -12,8 +12,8 @@ export class Workday {
       throw new Error('Invalid date format.');
     }
 
-    if (taskList.length < 1 || taskList.length > this.#MAX_TASKS_LIMIT) {
-      throw new Error(`Task list must contain between 1 and ${this.#MAX_TASKS_LIMIT} tasks.`);
+    if (taskList.length > this.#MAX_TASKS_LIMIT) {
+      throw new Error(`Task list cannot contain more than ${this.#MAX_TASKS_LIMIT} tasks.`);
     }
 
     this.date = isoDate.toISOString().split('T')[0];
@@ -21,7 +21,7 @@ export class Workday {
   }
 
   static createEmptyWorkday(): Workday {
-    return new Workday(new Date(), [Task.createEmptyTask()]);
+    return new Workday(new Date(), []);
   }
 
   static create(date: string | Date, taskList: Task[]): Workday {
@@ -50,10 +50,6 @@ export class Workday {
   }
 
   removeTask(index: number): Workday {
-    if (this.#taskList.length === 1) {
-      throw new Error('A workday must have at least one task.');
-    }
-
     if (index < 0 || index >= this.#taskList.length) {
       throw new Error('Invalid task index.');
     }
@@ -75,6 +71,6 @@ export class Workday {
   }
 
   hasNoPlannedTasks(): boolean {
-    return this.#taskList.every((task) => task.isEmpty());
+    return this.#taskList.length === 0;
   }
 }

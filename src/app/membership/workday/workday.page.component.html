@@ -1,7 +1,6 @@
 <div class="container flex py-5">
   <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div></div>
+  <div class="d-flex justify-content-center align-items-center mb-4 position-relative">
     <div class="form-group text-center">
       <label for="workDay" class="form-label fw-bold">Working Day</label>
       <input
@@ -12,7 +11,9 @@
         (ngModelChange)="localStore.updateWorkdayDate($event)"
       />
     </div>
-    <button class="btn btn-success align-self-end">Start the work day</button>
+    @if (!localStore.hasNoPlannedTasks()) {
+      <button class="btn btn-success align-self-end position-absolute end-0">Start the work day</button>
+    }
   </div>
 
   @if (localStore.hasNoPlannedTasks()) {

@@ -22,7 +22,10 @@ export const WorkdayPageStore = signalStore(
     const shouldDisplayAddButton = computed(() => {
       return !state.workday().isTaskListFull();
     });
-    return { taskCount, shouldDisplayAddButton };
+    const hasNoPlannedTasks = computed(() => {
+      return state.workday().hasNoPlannedTasks();
+    });
+    return { taskCount, shouldDisplayAddButton, hasNoPlannedTasks };
   }),
   withMethods(
     (

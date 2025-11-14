@@ -62,7 +62,7 @@ describe('AddTaskUseCase', () => {
       let workday = Workday.createEmptyWorkday();
 
       // Add tasks until full (max 6)
-      for (let i = 1; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         workday = workday.addEmptyTask();
       }
 

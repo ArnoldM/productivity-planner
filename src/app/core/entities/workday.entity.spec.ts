@@ -3,12 +3,11 @@ import { Task } from './task.entity';
 
 describe('Workday', () => {
   describe('createEmptyWorkday', () => {
-    it('should create a workday with one empty task', () => {
+    it('should create a workday with no tasks', () => {
       const workday = Workday.createEmptyWorkday();
 
       expect(workday).toBeInstanceOf(Workday);
-      expect(workday.taskList.length).toBe(1);
-      expect(workday.taskList[0]).toBeInstanceOf(Task);
+      expect(workday.taskList.length).toBe(0);
     });
 
     it('should create a workday with today date', () => {
@@ -26,10 +25,10 @@ describe('Workday', () => {
       }).toThrow('Invalid date format.');
     });
 
-    it('should throw error if task list is empty', () => {
-      expect(() => {
-        Workday.create(new Date(), []);
-      }).toThrow('Task list must contain between 1 and 6 tasks.');
+    it('should accept empty task list', () => {
+      const workday = Workday.create(new Date(), []);
+
+      expect(workday.taskList.length).toBe(0);
     });
 
     it('should throw error if task list has more than 6 tasks', () => {
@@ -37,7 +36,7 @@ describe('Workday', () => {
 
       expect(() => {
         Workday.create(new Date(), tasks);
-      }).toThrow('Task list must contain between 1 and 6 tasks.');
+      }).toThrow('Task list cannot contain more than 6 tasks.');
     });
 
     it('should accept Date object', () => {
@@ -71,8 +70,8 @@ describe('Workday', () => {
 
       const result = workday.addTask(task);
 
-      expect(result.taskList.length).toBe(2);
-      expect(result.taskList[1].title).toBe('New Task');
+      expect(result.taskList.length).toBe(1);
+      expect(result.taskList[0].title).toBe('New Task');
     });
 
     it('should not mutate the original workday', () => {
@@ -88,7 +87,7 @@ describe('Workday', () => {
     it('should throw error when task list is full (6 tasks)', () => {
       let workday = Workday.createEmptyWorkday();
 
-      for (let i = 1; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         workday = workday.addEmptyTask();
       }
 
@@ -114,8 +113,8 @@ describe('Workday', () => {
 
       const result = workday.addEmptyTask();
 
-      expect(result.taskList.length).toBe(2);
-      expect(result.taskList[1].title).toBe('Nouvelle tâche');
+      expect(result.taskList.length).toBe(1);
+      expect(result.taskList[0].title).toBe('Nouvelle tâche');
     });
 
     it('should return a new Workday instance', () => {
@@ -144,11 +143,10 @@ describe('Workday', () => {
 
       workday = workday.addTask(task1).addTask(task2);
 
-      const result = workday.removeTask(1);
+      const result = workday.removeTask(0);
 
-      expect(result.taskList.length).toBe(2);
-      expect(result.taskList[0].title).toBe('Nouvelle tâche');
-      expect(result.taskList[1].title).toBe('Task 2');
+      expect(result.taskList.length).toBe(1);
+      expect(result.taskList[0].title).toBe('Task 2');
     });
 
     it('should not mutate the original workday', () => {
@@ -158,12 +156,6 @@ describe('Workday', () => {
       workday.removeTask(0);
 
       expect(workday.taskList.length).toBe(originalLength);
-    });
-
-    it('should throw error when removing from single task workday', () => {
-      const workday = Workday.createEmptyWorkday();
-
-      expect(() => workday.removeTask(0)).toThrow('A workday must have at least one task.');
     });
 
     it('should throw error when index is negative', () => {
@@ -181,7 +173,7 @@ describe('Workday', () => {
 
   describe('replaceTask', () => {
     it('should return a new Workday instance', () => {
-      const workday = Workday.createEmptyWorkday();
+      const workday = Workday.createEmptyWorkday().addEmptyTask();
       const newTask = Task.createEmptyTask();
 
       const result = workday.replaceTask(0, newTask);
@@ -191,7 +183,7 @@ describe('Workday', () => {
     });
 
     it('should replace task at specified index', () => {
-      const workday = Workday.createEmptyWorkday();
+      const workday = Workday.createEmptyWorkday().addEmptyTask();
       const newTask = Task.createEmptyTask().withTitle('Replaced Task');
 
       const result = workday.replaceTask(0, newTask);
@@ -200,7 +192,7 @@ describe('Workday', () => {
     });
 
     it('should not mutate the original workday', () => {
-      const workday = Workday.createEmptyWorkday();
+      const workday = Workday.createEmptyWorkday().addEmptyTask();
       const originalTitle = workday.taskList[0].title;
       const newTask = Task.createEmptyTask().withTitle('Replaced Task');
 
@@ -210,14 +202,14 @@ describe('Workday', () => {
     });
 
     it('should throw error when index is negative', () => {
-      const workday = Workday.createEmptyWorkday();
+      const workday = Workday.createEmptyWorkday().addEmptyTask();
       const newTask = Task.createEmptyTask();
 
       expect(() => workday.replaceTask(-1, newTask)).toThrow('Invalid task index.');
     });
 
     it('should throw error when index is out of bounds', () => {
-      const workday = Workday.createEmptyWorkday();
+      const workday = Workday.createEmptyWorkday().addEmptyTask();
       const newTask = Task.createEmptyTask();
 
       expect(() => workday.replaceTask(5, newTask)).toThrow('Invalid task index.');
@@ -249,10 +241,9 @@ describe('Workday', () => {
 
       const result = workday.withDate('2025-12-25');
 
-      expect(result.taskList.length).toBe(3);
-      expect(result.taskList[0].title).toBe('Nouvelle tâche');
-      expect(result.taskList[1].title).toBe('Task 1');
-      expect(result.taskList[2].title).toBe('Task 2');
+      expect(result.taskList.length).toBe(2);
+      expect(result.taskList[0].title).toBe('Task 1');
+      expect(result.taskList[1].title).toBe('Task 2');
     });
 
     it('should not mutate the original workday', () => {
@@ -281,11 +272,31 @@ describe('Workday', () => {
     it('should return true when task list has 6 tasks', () => {
       let workday = Workday.createEmptyWorkday();
 
-      for (let i = 1; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         workday = workday.addEmptyTask();
       }
 
       expect(workday.isTaskListFull()).toBe(true);
+    });
+  });
+
+  describe('hasNoPlannedTasks', () => {
+    it('should return true when workday has no tasks', () => {
+      const workday = Workday.createEmptyWorkday();
+
+      expect(workday.hasNoPlannedTasks()).toBe(true);
+    });
+
+    it('should return false when workday has at least one task', () => {
+      const workday = Workday.createEmptyWorkday().addEmptyTask();
+
+      expect(workday.hasNoPlannedTasks()).toBe(false);
+    });
+
+    it('should return false when workday has multiple tasks', () => {
+      const workday = Workday.createEmptyWorkday().addEmptyTask().addEmptyTask();
+
+      expect(workday.hasNoPlannedTasks()).toBe(false);
     });
   });
 

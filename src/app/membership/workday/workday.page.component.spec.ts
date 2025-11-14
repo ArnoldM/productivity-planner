@@ -32,20 +32,61 @@ describe('WorkdayPageComponent', () => {
   });
 
   describe('when user views the page', () => {
+    it('should display empty workday component when no tasks are planned', () => {
+      const emptyWorkday = fixture.debugElement.query(By.css('[data-testid="empty-workday"]'));
+
+      expect(emptyWorkday).toBeTruthy();
+      expect(component.localStore.hasNoPlannedTasks()).toBe(true);
+    });
+
+    it('should not display task list when no tasks are planned', () => {
+      const taskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
+
+      expect(taskCards.length).toBe(0);
+    });
+
+    it('should hide empty workday component when at least one task is added', () => {
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
+      const emptyWorkday = fixture.debugElement.query(By.css('[data-testid="empty-workday"]'));
+
+      expect(emptyWorkday).toBeNull();
+      expect(component.localStore.hasNoPlannedTasks()).toBe(false);
+    });
+
+    it('should display "Ajouter une tâche" button even when no tasks are planned', () => {
+      const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
+
+      expect(addButton).toBeTruthy();
+      expect(addButton.nativeElement.textContent.trim()).toBe('Ajouter une tâche');
+    });
+
     it('should display all tasks from the store', () => {
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
       const taskCards = fixture.debugElement.queryAll(By.css('[data-testid="task-card"]'));
 
       expect(taskCards.length).toBe(component.localStore.taskCount());
     });
 
-    it('should display task title in input field', () => {
+    it('should display task title in input field', async () => {
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
       const firstTaskInput = fixture.debugElement.query(By.css('[data-testid="task-title-input"]'));
       const firstTask = component.localStore.workday().taskList[0];
 
       expect(firstTaskInput.nativeElement.value).toBe(firstTask.title);
     });
 
-    it('should display all tasks with correct titles', () => {
+    it('should display all tasks with correct titles', async () => {
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
       const taskInputs = fixture.debugElement.queryAll(By.css('[data-testid="task-title-input"]'));
       const tasks = component.localStore.workday().taskList;
 
@@ -55,6 +96,9 @@ describe('WorkdayPageComponent', () => {
     });
 
     it('should display delete button for each task', () => {
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
       const deleteButtons = fixture.debugElement.queryAll(
         By.css('[data-testid="task-delete-button"]'),
       );
@@ -64,6 +108,9 @@ describe('WorkdayPageComponent', () => {
     });
 
     it('should display "Ajouter une tâche" button when task list is not full', () => {
+      component.localStore.onAddTask();
+      fixture.detectChanges();
+
       const addButton = fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
 
       expect(addButton).toBeTruthy();
@@ -72,7 +119,7 @@ describe('WorkdayPageComponent', () => {
 
     it('should hide "Ajouter une tâche" button when task list is full (6 tasks)', () => {
       // Add tasks until full
-      for (let i = 1; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         component.localStore.onAddTask();
       }
       fixture.detectChanges();
@@ -119,12 +166,12 @@ describe('WorkdayPageComponent', () => {
 
   describe('when user clicks delete button on a task', () => {
     it('should call removeTask method with correct index', () => {
-      const spy = jest.spyOn(component.localStore, 'removeTask');
-
-      // Add a second task so we can delete one
+      // Add two tasks
+      component.localStore.onAddTask();
       component.localStore.onAddTask();
       fixture.detectChanges();
 
+      const spy = jest.spyOn(component.localStore, 'removeTask');
       const deleteButtons = fixture.debugElement.queryAll(
         By.css('[data-testid="task-delete-button"]'),
       );
@@ -136,7 +183,8 @@ describe('WorkdayPageComponent', () => {
     });
 
     it('should remove the task from the list', () => {
-      // Add tasks to have multiple tasks
+      // Add multiple tasks
+      component.localStore.onAddTask();
       component.localStore.onAddTask();
       component.localStore.onAddTask();
       fixture.detectChanges();
@@ -159,10 +207,12 @@ describe('WorkdayPageComponent', () => {
     });
 
     it('should shift remaining tasks up to fill the gap', () => {
-      // Add a task and update titles
+      // Add two tasks and update titles
+      component.localStore.onAddTask();
       component.localStore.onAddTask();
       component.localStore.updateTask(0, { title: 'First Task' });
       component.localStore.updateTask(1, { title: 'Second Task' });
+      fixture.detectChanges();
 
       const tasksBeforeRemoval = component.localStore.workday().taskList;
       const secondTaskTitle = tasksBeforeRemoval[1].title;

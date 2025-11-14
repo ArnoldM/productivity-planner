@@ -1,0 +1,41 @@
+<div class="d-flex align-items-center gap-2">
+  <select
+    class="form-select w-auto"
+    [ngModel]="task().type"
+    (ngModelChange)="taskUpdated.emit({ type: $event })"
+    data-testid="task-type-select"
+  >
+    <option [ngValue]="'Hit the target'">⛳️</option>
+    <option [ngValue]="'Get things done'">🎯</option>
+  </select>
+  <input
+    class="fs-5"
+    [ngModel]="task().title"
+    (ngModelChange)="taskUpdated.emit({ title: $event })"
+    data-testid="task-title-input"
+  />
+</div>
+<div class="d-flex align-items-center gap-2">
+  <select
+    class="form-select w-auto"
+    [ngModel]="task().pomodoroCount"
+    (ngModelChange)="taskUpdated.emit({ pomodoroCount: $event })"
+    data-testid="task-pomodoro-count-select"
+  >
+    @for (count of pomodoroOptions; track count) {
+      <option [ngValue]="count">{{ count }}</option>
+    }
+  </select>
+  <div class="d-flex gap-1">
+    @for (pomodoro of task().pomodoroList; track $index) {
+      <button class="btn btn-sm" data-testid="task-pomodoro-button">
+        <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
+      </button>
+    }
+  </div>
+  <span class="fs-5">0</span>
+  <span class="fs-5">🏁</span>
+  <button class="btn btn-sm" (click)="taskRemoved.emit()" data-testid="task-delete-button">
+    <i class="bi bi-x-lg text-secondary"></i>
+  </button>
+</div>

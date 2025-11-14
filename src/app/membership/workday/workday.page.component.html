@@ -12,7 +12,9 @@
       />
     </div>
     @if (!localStore.hasNoPlannedTasks()) {
-      <button class="btn btn-success align-self-end position-absolute end-0">Start the work day</button>
+      <button class="btn btn-success align-self-end position-absolute end-0">
+        Start the work day
+      </button>
     }
   </div>
 
@@ -28,56 +30,22 @@
         <h6 class="mt-2">Tâches restantes</h6>
       }
 
-      <div class="card p-3 d-flex flex-row align-items-center justify-content-between" data-testid="task-card">
-        <div class="d-flex align-items-center gap-2">
-          <select
-            class="form-select w-auto"
-            [ngModel]="task.type"
-            (ngModelChange)="localStore.updateTask($index, { type: $event })"
-            data-testid="task-type-select"
-          >
-            <option [ngValue]="'Hit the target'">⛳️</option>
-            <option [ngValue]="'Get things done'">🎯</option>
-          </select>
-          <input
-            class="fs-5"
-            [ngModel]="task.title"
-            (ngModelChange)="localStore.updateTask($index, { title: $event })"
-            data-testid="task-title-input"
-          />
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <select
-            class="form-select w-auto"
-            (ngModelChange)="localStore.updateTask($index, { pomodoroCount: $event })"
-            [ngModel]="task.pomodoroCount"
-            data-testid="task-pomodoro-count-select"
-          >
-            @for (count of pomodoroOptions; track count) {
-              <option [ngValue]="count">{{ count }}</option>
-            }
-          </select>
-          <div class="d-flex gap-1">
-            @for (pomodoro of task.pomodoroList; track $index) {
-              <button class="btn btn-sm" data-testid="task-pomodoro-button">
-                <i class="bi bi-pause-btn-fill text-secondary fs-5"></i>
-              </button>
-            }
-          </div>
-          <span class="fs-5">0</span>
-          <span class="fs-5">🏁</span>
-          <button class="btn btn-sm" (click)="localStore.removeTask($index)" data-testid="task-delete-button">
-            <i class="bi bi-x-lg text-secondary"></i>
-          </button>
-        </div>
-      </div>
+      <app-task-field
+        [task]="task"
+        (taskRemoved)="localStore.removeTask($index)"
+        (taskUpdated)="localStore.updateTask($index, $event)"
+      />
     }
   }
 
   @if (localStore.shouldDisplayAddButton()) {
     <!-- Add Task Link -->
     <div class="text-center">
-      <button (click)="localStore.onAddTask()" class="btn btn-link text-muted" data-testid="add-task-button">
+      <button
+        (click)="localStore.onAddTask()"
+        class="btn btn-link text-muted"
+        data-testid="add-task-button"
+      >
         Ajouter une tâche
       </button>
     </div>
